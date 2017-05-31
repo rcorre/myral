@@ -1,15 +1,13 @@
-/* 
+/*
  * Any single line C89 style comment in the form below will be used to
  * direct the compilation of a .glue.c file in Myrddin.
  */
 
-/* CFLAGS: -I/home/ori/wat */
-/* LIBS: c */
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+/* CFLAGS: -I. */
+/* LIBS: allegro */
+#include <allegro5/allegro.h>
 
-/* 
+/*
  * We're putting this code into package 'libc'.
  *
  * Myrddin's namespacing uses a '$' to separate
@@ -21,12 +19,8 @@
  * The package and function name don't have to
  * match up with C code.
  */
-ssize_t libc$write(int fd, char *data, size_t len)
-{
-    return write(fd, data, len);
-}
 
-ssize_t libc$puts(char *s)
+int liballegro$al_init()
 {
-    return puts(s);
+    return al_init();
 }
