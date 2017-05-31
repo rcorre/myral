@@ -3,8 +3,7 @@
  * direct the compilation of a .glue.c file in Myrddin.
  */
 
-/* CFLAGS: -I. */
-/* LIBS: allegro allegro_main */
+/* LIBS: c allegro */
 #include <allegro5/allegro.h>
 
 /*
@@ -20,7 +19,7 @@
  * match up with C code.
  */
 
-int allegro$al_init()
+int al$al_init()
 {
     return al_init();
 }

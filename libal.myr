@@ -1,6 +1,6 @@
 use std
 
-pkg allegro =
+pkg al =
 	/*
 	the functions we're binding. Again, we're free to pick whatever name
 	we want for them, as long as it matches up with the name we picked in

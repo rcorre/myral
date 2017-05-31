@@ -1,6 +1,8 @@
 use std
-use allegro
+use al
 
 const main = {
-	allegro.al_init()
+	std.put("start")
+	al.al_init()
+	std.put("dun")
 }
