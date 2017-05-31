@@ -20,7 +20,7 @@
  * match up with C code.
  */
 
-int liballegro$al_init()
+int allegro$al_init()
 {
     return al_init();
 }
