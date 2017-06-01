@@ -4,5 +4,6 @@ use myral
 const main = {
 	std.put("start")
 	myral.al_init()
+	myral.al_create_display(500, 500)
 	std.put("dun")
 }
