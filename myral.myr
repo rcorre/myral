@@ -1,0 +1,5 @@
+use std
+
+pkg myral =
+	extern const al_init : (-> int)
+;;

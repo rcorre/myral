@@ -1,8 +1,8 @@
 use std
-use al
+use myral
 
 const main = {
 	std.put("start")
-	al.al_init()
+	myral.al_init()
 	std.put("dun")
 }
