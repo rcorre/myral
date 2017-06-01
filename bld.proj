@@ -1,10 +1,10 @@
 bin main =
 	main.myr
 
-	lib myral
+	lib al
 ;;
 
-lib myral =
-	myral.myr
-	myral.glue.c
+lib al =
+	al.myr
+	al.glue.c
 ;;

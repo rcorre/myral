@@ -1,7 +1,0 @@
-use std
-
-pkg myral =
-	extern const al_init : (-> int)
-
-	extern const al_create_display : (w: int, h: int -> int)
-;;

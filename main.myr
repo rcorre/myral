@@ -1,9 +1,9 @@
 use std
-use myral
+use al
 
 const main = {
 	std.put("start")
-	myral.al_init()
-	myral.al_create_display(500, 500)
+	al.init()
+	al.create_display(500, 500)
 	std.put("dun")
 }

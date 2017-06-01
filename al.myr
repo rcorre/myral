@@ -1,0 +1,8 @@
+use std
+
+pkg al =
+	type display = struct
+	;;
+	extern const init : (-> int)
+	extern const create_display : (w: int, h: int -> display#)
+;;
