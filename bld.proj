@@ -5,6 +5,8 @@ bin main =
 ;;
 
 lib al =
-	al.myr
+	allegro.myr
+	display.myr
+
 	al.glue.c
 ;;

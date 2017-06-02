@@ -4,6 +4,7 @@ use al
 const main = {
 	std.put("start")
 	al.init()
-	al.create_display(500, 500)
+	var disp = al.create_display(500, 500)
+	al.destroy_display(disp)
 	std.put("dun")
 }
