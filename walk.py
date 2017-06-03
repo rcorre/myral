@@ -36,7 +36,7 @@ def walk(node):
     elif kind == cindex.CursorKind.VAR_DECL:
         print 'var {} : {}'.format(node.spelling, node.type.spelling)
     else:
-        print 'unknown', node.kind, node.spelling
+        print >> sys.stderr, 'ignored', node.kind, node.spelling
 
 index = cindex.Index.create()
 tu = index.parse(sys.argv[1])
