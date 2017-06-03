@@ -3,41 +3,82 @@
 import sys
 from clang import cindex
 
-def walk(node):
+PREFIX = 'al'
+
+def myr_func(node):
+    name = node.spelling
+    args = ', '.join('{}: {}'.format(a.spelling, a.type.spelling)
+                     for a in node.get_arguments())
+    ret = node.result_type.spelling
+    return 'extern const {} : ({} -> {})'.format(name, args, ret)
+
+def myr_enum(node):
+    fields = '\n'.join('\t`{}'.format(c.spelling) for c in node.get_children())
+    return 'type {} = union\n{}\n;;'.format(node.spelling, fields)
+
+def myr_union(node):
+    fields = '\n'.join('\t`{} {}'.format(c.spelling, c.type.spelling)
+                       for c in node.get_children())
+    return 'type {} = union\n{}\n;;'.format(node.spelling, fields)
+
+def myr_struct(node):
+    return 'type {} = struct\n;;'.format(node.spelling)
+
+def myr_typedef(node):
+    typ = node.underlying_typedef_type
+    return 'type {} = {};;'.format(node.spelling, typ.spelling)
+
+def myr_var(node):
+    return 'var {} : {}'.format(node.spelling, node.type.spelling)
+
+def glue_func(node):
+    name = node.spelling
+    ret = node.result_type.spelling
+    args = ', '.join('{} {}'.format(a.type.spelling, a.spelling)
+                     for a in node.get_arguments())
+    argnames = ', '.join(a.spelling for a in node.get_arguments())
+    return '\n'.join(['{} {}${}({})'.format(ret, PREFIX, name, args),
+                      '{',
+                      '\treturn {}({})'.format(name, argnames),
+                      '}'])
+
+def myr_code(node):
     kind = node.kind
-    if kind == cindex.CursorKind.TRANSLATION_UNIT:
-        for c in node.get_children():
-            walk(c)
-    elif kind == cindex.CursorKind.FUNCTION_DECL:
-        name = node.spelling
-        args = ','.join('{}: {}'.format(a.spelling, a.type.spelling)
-                        for a in node.get_arguments())
-        ret = node.result_type.spelling
-        print 'extern const {} : ({} -> {})'.format(name, args, ret)
+    if kind == cindex.CursorKind.FUNCTION_DECL:
+        return myr_func(node)
     elif kind == cindex.CursorKind.ENUM_DECL:
-        print 'type {} = union'.format(node.spelling)
-        for c in node.get_children():
-            print '\t`{}'.format(c.spelling)
-        print ';;'
+        return myr_enum(node)
     elif kind == cindex.CursorKind.UNION_DECL:
-        print 'type {} = union'.format(node.spelling)
-        for c in node.get_children():
-            print '\t`{} {}'.format(c.spelling, c.type.spelling)
-        print ';;'
+        return myr_union(node)
     elif kind == cindex.CursorKind.TYPEDEF_DECL:
         typ = node.underlying_typedef_type
         if typ.kind == cindex.TypeKind.ELABORATED:
-            print 'type {} = struct\n;;'.format(node.spelling)
+            return myr_struct(node)
         else:
-            print 'type {} = {};;'.format(node.spelling, typ.spelling)
+            return myr_typedef(node)
     elif kind == cindex.CursorKind.STRUCT_DECL:
-        if node.spelling:
-            print 'type {} = struct\n;;'.format(node.spelling)
+        # only include typedef'd structs for now...
+        return None
     elif kind == cindex.CursorKind.VAR_DECL:
-        print 'var {} : {}'.format(node.spelling, node.type.spelling)
+        return myr_var(node)
     else:
-        print >> sys.stderr, 'ignored', node.kind, node.spelling
+        sys.stderr.write('ignored {} {}\n'.format(node.kind, node.spelling))
+    return None
+
+def glue_code(node):
+    if node.kind == cindex.CursorKind.FUNCTION_DECL:
+        return glue_func(node)
+    return None
 
 index = cindex.Index.create()
 tu = index.parse(sys.argv[1])
-walk(tu.cursor)
+with open('test.myr', 'w') as myr_file, open('test.glue.c', 'w') as glue_file:
+    for node in tu.cursor.get_children():
+        myr = myr_code(node)
+        glue = glue_code(node)
+        if myr:
+            myr_file.write(myr)
+            myr_file.write('\n')
+        if glue:
+            glue_file.write(glue)
+            glue_file.write('\n')
