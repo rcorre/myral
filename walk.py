@@ -54,8 +54,7 @@ def myr_code(node):
         typ = node.underlying_typedef_type
         if typ.kind == cindex.TypeKind.ELABORATED:
             return myr_struct(node)
-        else:
-            return myr_typedef(node)
+        return myr_typedef(node)
     elif kind == cindex.CursorKind.STRUCT_DECL:
         # only include typedef'd structs for now...
         return None
@@ -73,9 +72,9 @@ def glue_code(node):
 index = cindex.Index.create()
 tu = index.parse(sys.argv[1])
 with open('test.myr', 'w') as myr_file, open('test.glue.c', 'w') as glue_file:
-    for node in tu.cursor.get_children():
-        myr = myr_code(node)
-        glue = glue_code(node)
+    for child in tu.cursor.get_children():
+        myr = myr_code(child)
+        glue = glue_code(child)
         if myr:
             myr_file.write(myr)
             myr_file.write('\n')
