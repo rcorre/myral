@@ -9,14 +9,18 @@ STRIP_PREFIX = ['al_', 'ALLEGRO_']
 INCLUDE_FILTER = '*/allegro5/*'
 
 def nameof(node):
-    name = node.spelling
+    if node.kind == cindex.TypeKind.POINTER:
+        name = node.get_pointee().spelling + '#'
+    else:
+        name = node.spelling
+
     for prefix in STRIP_PREFIX:
         if name.startswith(prefix):
             name = name[len(prefix):]
     return name
 
 def myr_func(node):
-    args = ', '.join('{}: {}'.format(nameof(a), nameof(a.type))
+    args = ', '.join('{}: {}'.format(a.spelling, nameof(a.type))
                      for a in node.get_arguments())
     ret = nameof(node.result_type)
     return 'extern const {} : ({} -> {})'.format(nameof(node), args, ret)
