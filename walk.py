@@ -6,8 +6,10 @@ from clang import cindex
 
 PACKAGE = 'al'
 STRIP_PREFIX = ['al_', 'ALLEGRO_']
-INCLUDE_FILTER = '*/allegro5/*'
+INCLUDE_HEADER = '*/allegro5/*'
+EXCLUDE_HEADER = '*/allegro5/inline/*'
 EXCLUDE_NAME = '_*'
+C_HEADERS = ['allegro5/allegro.h']
 
 def nameof(node):
     if node.kind == cindex.TypeKind.POINTER:
@@ -88,8 +90,13 @@ def glue_code(node):
 index = cindex.Index.create()
 tu = index.parse(sys.argv[1])
 with open('test.myr', 'w') as myr_file, open('test.glue.c', 'w') as glue_file:
+    for name in C_HEADERS:
+        glue_file.write('#include "{}"\n'.format(name))
     for child in tu.cursor.get_children():
-        if not fnmatch.fnmatch(child.location.file.name, INCLUDE_FILTER):
+        header = child.location.file.name
+        if not fnmatch.fnmatch(header, INCLUDE_HEADER):
+            continue
+        if fnmatch.fnmatch(header, EXCLUDE_HEADER):
             continue
         if fnmatch.fnmatch(child.spelling, EXCLUDE_NAME):
             continue
@@ -99,5 +106,7 @@ with open('test.myr', 'w') as myr_file, open('test.glue.c', 'w') as glue_file:
             myr_file.write(myr)
             myr_file.write('\n')
         if glue:
+            glue_file.write('// ' + child.location.file.name + '\n')
+            glue_file.write('// ' + EXCLUDE_HEADER + '\n')
             glue_file.write(glue)
             glue_file.write('\n')
