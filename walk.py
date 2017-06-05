@@ -4,44 +4,51 @@ import fnmatch
 import sys
 from clang import cindex
 
-PREFIX = 'al'
+PACKAGE = 'al'
+STRIP_PREFIX = ['al_', 'ALLEGRO_']
 INCLUDE_FILTER = '*/allegro5/*'
 
-def myr_func(node):
+def nameof(node):
     name = node.spelling
-    args = ', '.join('{}: {}'.format(a.spelling, a.type.spelling)
+    for prefix in STRIP_PREFIX:
+        if name.startswith(prefix):
+            name = name[len(prefix):]
+    return name
+
+def myr_func(node):
+    args = ', '.join('{}: {}'.format(nameof(a), nameof(a.type))
                      for a in node.get_arguments())
-    ret = node.result_type.spelling
-    return 'extern const {} : ({} -> {})'.format(name, args, ret)
+    ret = nameof(node.result_type)
+    return 'extern const {} : ({} -> {})'.format(nameof(node), args, ret)
 
 def myr_enum(node):
-    fields = '\n'.join('\t`{}'.format(c.spelling) for c in node.get_children())
-    return 'type {} = union\n{}\n;;'.format(node.spelling, fields)
+    fields = '\n'.join('\t`{}'.format(nameof(c))
+                       for c in node.get_children())
+    return 'type {} = union\n{}\n;;'.format(nameof(node), fields)
 
 def myr_union(node):
-    fields = '\n'.join('\t`{} {}'.format(c.spelling, c.type.spelling)
+    fields = '\n'.join('\t`{} {}'.format(nameof(c), nameof(c.type))
                        for c in node.get_children())
-    return 'type {} = union\n{}\n;;'.format(node.spelling, fields)
+    return 'type {} = union\n{}\n;;'.format(nameof(node), fields)
 
 def myr_struct(node):
-    return 'type {} = struct\n;;'.format(node.spelling)
+    return 'type {} = struct\n;;'.format(nameof(node))
 
 def myr_typedef(node):
     typ = node.underlying_typedef_type
-    return 'type {} = {};;'.format(node.spelling, typ.spelling)
+    return 'type {} = {};;'.format(nameof(node), nameof(typ))
 
 def myr_var(node):
-    return 'var {} : {}'.format(node.spelling, node.type.spelling)
+    return 'var {} : {}'.format(nameof(node), nameof(node.type))
 
 def glue_func(node):
-    name = node.spelling
     ret = node.result_type.spelling
     args = ', '.join('{} {}'.format(a.type.spelling, a.spelling)
                      for a in node.get_arguments())
     argnames = ', '.join(a.spelling for a in node.get_arguments())
-    return '\n'.join(['{} {}${}({})'.format(ret, PREFIX, name, args),
+    return '\n'.join(['{} {}${}({})'.format(ret, PACKAGE, nameof(node), args),
                       '{',
-                      '\treturn {}({})'.format(name, argnames),
+                      '\treturn {}({})'.format(nameof(node), argnames),
                       '}'])
 
 def myr_code(node):
