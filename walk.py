@@ -7,6 +7,7 @@ from clang import cindex
 PACKAGE = 'al'
 STRIP_PREFIX = ['al_', 'ALLEGRO_']
 INCLUDE_FILTER = '*/allegro5/*'
+EXCLUDE_NAME = '_*'
 
 def nameof(node):
     if node.kind == cindex.TypeKind.POINTER:
@@ -89,6 +90,8 @@ tu = index.parse(sys.argv[1])
 with open('test.myr', 'w') as myr_file, open('test.glue.c', 'w') as glue_file:
     for child in tu.cursor.get_children():
         if not fnmatch.fnmatch(child.location.file.name, INCLUDE_FILTER):
+            continue
+        if fnmatch.fnmatch(child.spelling, EXCLUDE_NAME):
             continue
         myr = myr_code(child)
         glue = glue_code(child)
