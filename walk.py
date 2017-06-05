@@ -1,9 +1,11 @@
 #!/bin/python2
 
+import fnmatch
 import sys
 from clang import cindex
 
 PREFIX = 'al'
+INCLUDE_FILTER = '*/allegro5/*'
 
 def myr_func(node):
     name = node.spelling
@@ -73,6 +75,8 @@ index = cindex.Index.create()
 tu = index.parse(sys.argv[1])
 with open('test.myr', 'w') as myr_file, open('test.glue.c', 'w') as glue_file:
     for child in tu.cursor.get_children():
+        if not fnmatch.fnmatch(child.location.file.name, INCLUDE_FILTER):
+            continue
         myr = myr_code(child)
         glue = glue_code(child)
         if myr:
