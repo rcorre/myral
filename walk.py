@@ -47,9 +47,11 @@ def myr_var(node):
 
 def glue_func(node):
     ret = node.result_type.spelling
-    args = ', '.join('{} {}'.format(a.type.spelling, a.spelling)
-                     for a in node.get_arguments())
-    argnames = ', '.join(a.spelling for a in node.get_arguments())
+    args = ', '.join('{} {}'.format(a.type.spelling,
+                                    a.spelling or 'arg{}'.format(i))
+                     for i, a in enumerate(node.get_arguments()))
+    argnames = ', '.join(a.spelling or 'arg{}'.format(i)
+                         for i, a in enumerate(node.get_arguments()))
     return '\n'.join(['{} {}${}({})'.format(ret, PACKAGE, nameof(node), args),
                       '{',
                       '\treturn {}({});'.format(node.spelling, argnames),
