@@ -52,7 +52,7 @@ def glue_func(node):
     argnames = ', '.join(a.spelling for a in node.get_arguments())
     return '\n'.join(['{} {}${}({})'.format(ret, PACKAGE, nameof(node), args),
                       '{',
-                      '\treturn {}({})'.format(nameof(node), argnames),
+                      '\treturn {}({});'.format(node.spelling, argnames),
                       '}'])
 
 def myr_code(node):
