@@ -106,7 +106,5 @@ with open('test.myr', 'w') as myr_file, open('test.glue.c', 'w') as glue_file:
             myr_file.write(myr)
             myr_file.write('\n')
         if glue:
-            glue_file.write('// ' + child.location.file.name + '\n')
-            glue_file.write('// ' + EXCLUDE_HEADER + '\n')
             glue_file.write(glue)
             glue_file.write('\n')
