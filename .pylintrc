@@ -1,3 +1,2 @@
 [MESSAGES CONTROL]
-disable=missing-docstring
-disable=too-many-return-statements
+disable=too-many-return-statements,missing-docstring,invalid-name
