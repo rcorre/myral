@@ -231,98 +231,6 @@ void al$draw_tinted_scaled_rotated_bitmap_region(ALLEGRO_BITMAP * bitmap, float 
 {
 	return al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, cx, cy, dx, dy, xscale, yscale, angle, flags);
 }
-ALLEGRO_PATH * al$create_path(const char * str)
-{
-	return al_create_path(str);
-}
-ALLEGRO_PATH * al$create_path_for_directory(const char * str)
-{
-	return al_create_path_for_directory(str);
-}
-ALLEGRO_PATH * al$clone_path(const ALLEGRO_PATH * path)
-{
-	return al_clone_path(path);
-}
-int al$get_path_num_components(const ALLEGRO_PATH * path)
-{
-	return al_get_path_num_components(path);
-}
-const char * al$get_path_component(const ALLEGRO_PATH * path, int i)
-{
-	return al_get_path_component(path, i);
-}
-void al$replace_path_component(ALLEGRO_PATH * path, int i, const char * s)
-{
-	return al_replace_path_component(path, i, s);
-}
-void al$remove_path_component(ALLEGRO_PATH * path, int i)
-{
-	return al_remove_path_component(path, i);
-}
-void al$insert_path_component(ALLEGRO_PATH * path, int i, const char * s)
-{
-	return al_insert_path_component(path, i, s);
-}
-const char * al$get_path_tail(const ALLEGRO_PATH * path)
-{
-	return al_get_path_tail(path);
-}
-void al$drop_path_tail(ALLEGRO_PATH * path)
-{
-	return al_drop_path_tail(path);
-}
-void al$append_path_component(ALLEGRO_PATH * path, const char * s)
-{
-	return al_append_path_component(path, s);
-}
-int al$join_paths(ALLEGRO_PATH * path, const ALLEGRO_PATH * tail)
-{
-	return al_join_paths(path, tail);
-}
-int al$rebase_path(const ALLEGRO_PATH * head, ALLEGRO_PATH * tail)
-{
-	return al_rebase_path(head, tail);
-}
-const char * al$path_cstr(const ALLEGRO_PATH * path, char delim)
-{
-	return al_path_cstr(path, delim);
-}
-void al$destroy_path(ALLEGRO_PATH * path)
-{
-	return al_destroy_path(path);
-}
-void al$set_path_drive(ALLEGRO_PATH * path, const char * drive)
-{
-	return al_set_path_drive(path, drive);
-}
-const char * al$get_path_drive(const ALLEGRO_PATH * path)
-{
-	return al_get_path_drive(path);
-}
-void al$set_path_filename(ALLEGRO_PATH * path, const char * filename)
-{
-	return al_set_path_filename(path, filename);
-}
-const char * al$get_path_filename(const ALLEGRO_PATH * path)
-{
-	return al_get_path_filename(path);
-}
-const char * al$get_path_extension(const ALLEGRO_PATH * path)
-{
-	return al_get_path_extension(path);
-}
-int al$set_path_extension(ALLEGRO_PATH * path, const char * extension)
-{
-	return al_set_path_extension(path, extension);
-}
-const char * al$get_path_basename(const ALLEGRO_PATH * path)
-{
-	return al_get_path_basename(path);
-}
-int al$make_path_canonical(ALLEGRO_PATH * path)
-{
-	return al_make_path_canonical(path);
-}
 ALLEGRO_USTR * al$ustr_new(const char * s)
 {
 	return al_ustr_new(s);
@@ -586,6 +494,102 @@ int al$utf16_width(int c)
 int al$utf16_encode(uint16_t [] s, int32_t c)
 {
 	return al_utf16_encode(s, c);
+}
+ALLEGRO_PATH * al$create_path(const char * str)
+{
+	return al_create_path(str);
+}
+ALLEGRO_PATH * al$create_path_for_directory(const char * str)
+{
+	return al_create_path_for_directory(str);
+}
+ALLEGRO_PATH * al$clone_path(const ALLEGRO_PATH * path)
+{
+	return al_clone_path(path);
+}
+int al$get_path_num_components(const ALLEGRO_PATH * path)
+{
+	return al_get_path_num_components(path);
+}
+const char * al$get_path_component(const ALLEGRO_PATH * path, int i)
+{
+	return al_get_path_component(path, i);
+}
+void al$replace_path_component(ALLEGRO_PATH * path, int i, const char * s)
+{
+	return al_replace_path_component(path, i, s);
+}
+void al$remove_path_component(ALLEGRO_PATH * path, int i)
+{
+	return al_remove_path_component(path, i);
+}
+void al$insert_path_component(ALLEGRO_PATH * path, int i, const char * s)
+{
+	return al_insert_path_component(path, i, s);
+}
+const char * al$get_path_tail(const ALLEGRO_PATH * path)
+{
+	return al_get_path_tail(path);
+}
+void al$drop_path_tail(ALLEGRO_PATH * path)
+{
+	return al_drop_path_tail(path);
+}
+void al$append_path_component(ALLEGRO_PATH * path, const char * s)
+{
+	return al_append_path_component(path, s);
+}
+int al$join_paths(ALLEGRO_PATH * path, const ALLEGRO_PATH * tail)
+{
+	return al_join_paths(path, tail);
+}
+int al$rebase_path(const ALLEGRO_PATH * head, ALLEGRO_PATH * tail)
+{
+	return al_rebase_path(head, tail);
+}
+const char * al$path_cstr(const ALLEGRO_PATH * path, char delim)
+{
+	return al_path_cstr(path, delim);
+}
+const ALLEGRO_USTR * al$path_ustr(const ALLEGRO_PATH * path, char delim)
+{
+	return al_path_ustr(path, delim);
+}
+void al$destroy_path(ALLEGRO_PATH * path)
+{
+	return al_destroy_path(path);
+}
+void al$set_path_drive(ALLEGRO_PATH * path, const char * drive)
+{
+	return al_set_path_drive(path, drive);
+}
+const char * al$get_path_drive(const ALLEGRO_PATH * path)
+{
+	return al_get_path_drive(path);
+}
+void al$set_path_filename(ALLEGRO_PATH * path, const char * filename)
+{
+	return al_set_path_filename(path, filename);
+}
+const char * al$get_path_filename(const ALLEGRO_PATH * path)
+{
+	return al_get_path_filename(path);
+}
+const char * al$get_path_extension(const ALLEGRO_PATH * path)
+{
+	return al_get_path_extension(path);
+}
+int al$set_path_extension(ALLEGRO_PATH * path, const char * extension)
+{
+	return al_set_path_extension(path, extension);
+}
+const char * al$get_path_basename(const ALLEGRO_PATH * path)
+{
+	return al_get_path_basename(path);
+}
+int al$make_path_canonical(ALLEGRO_PATH * path)
+{
+	return al_make_path_canonical(path);
 }
 ALLEGRO_FILE * al$fopen(const char * path, const char * mode)
 {
@@ -1066,6 +1070,10 @@ int al$set_window_constraints(ALLEGRO_DISPLAY * display, int min_w, int min_h, i
 int al$get_window_constraints(ALLEGRO_DISPLAY * display, int * min_w, int * min_h, int * max_w, int * max_h)
 {
 	return al_get_window_constraints(display, min_w, min_h, max_w, max_h);
+}
+void al$apply_window_constraints(ALLEGRO_DISPLAY * display, bool onoff)
+{
+	return al_apply_window_constraints(display, onoff);
 }
 void al$set_window_title(ALLEGRO_DISPLAY * display, const char * title)
 {
@@ -1654,6 +1662,14 @@ void al$transform_coordinates(const ALLEGRO_TRANSFORM * trans, float * x, float 
 void al$transform_coordinates_3d(const ALLEGRO_TRANSFORM * trans, float * x, float * y, float * z)
 {
 	return al_transform_coordinates_3d(trans, x, y, z);
+}
+void al$transform_coordinates_4d(const ALLEGRO_TRANSFORM * trans, float * x, float * y, float * z, float * w)
+{
+	return al_transform_coordinates_4d(trans, x, y, z, w);
+}
+void al$transform_coordinates_3d_projective(const ALLEGRO_TRANSFORM * trans, float * x, float * y, float * z)
+{
+	return al_transform_coordinates_3d_projective(trans, x, y, z);
 }
 void al$compose_transform(ALLEGRO_TRANSFORM * trans, const ALLEGRO_TRANSFORM * other)
 {

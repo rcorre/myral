@@ -86,7 +86,7 @@ def glue_code(node):
 
 index = cindex.Index.create()
 tu = index.parse(sys.argv[1])
-with open('test.myr', 'w') as myr_file, open('test.glue.c', 'w') as glue_file:
+with open('allegro.myr', 'w') as myr_file, open('al.glue.c', 'w') as glue_file:
     for header in C_HEADERS:
         glue_file.write('#include "{}"\n'.format(header))
     for child in tu.cursor.get_children():
