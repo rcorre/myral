@@ -1,12 +1,11 @@
 #include "allegro5/allegro.h"
-
 uint32_t al$get_allegro_version()
 {
 	return al_get_allegro_version();
 }
-int al$run_main(int argc, char ** argv, int (*fun)(int, char **))
+int al$run_main(int argc, char ** argv, int (*)(int, char **) arg2)
 {
-	return al_run_main(argc, argv, fun);
+	return al_run_main(argc, argv, arg2);
 }
 double al$get_time()
 {
@@ -564,7 +563,7 @@ int al$utf8_width(int32_t c)
 {
 	return al_utf8_width(c);
 }
-int al$utf8_encode(char * s, int32_t c)
+int al$utf8_encode(char [] s, int32_t c)
 {
 	return al_utf8_encode(s, c);
 }
@@ -584,7 +583,7 @@ int al$utf16_width(int c)
 {
 	return al_utf16_width(c);
 }
-int al$utf16_encode(uint16_t s[], int32_t c)
+int al$utf16_encode(uint16_t [] s, int32_t c)
 {
 	return al_utf16_encode(s, c);
 }
@@ -844,7 +843,7 @@ void al$destroy_user_event_source(ALLEGRO_EVENT_SOURCE * arg0)
 {
 	return al_destroy_user_event_source(arg0);
 }
-int al$emit_user_event(ALLEGRO_EVENT_SOURCE * arg0, ALLEGRO_EVENT * arg1, void (* dtor)(ALLEGRO_USER_EVENT *))
+int al$emit_user_event(ALLEGRO_EVENT_SOURCE * arg0, ALLEGRO_EVENT * arg1, void (*)(ALLEGRO_USER_EVENT *) dtor)
 {
 	return al_emit_user_event(arg0, arg1, dtor);
 }
@@ -1032,7 +1031,7 @@ void al$set_display_icon(ALLEGRO_DISPLAY * display, ALLEGRO_BITMAP * icon)
 {
 	return al_set_display_icon(display, icon);
 }
-void al$set_display_icons(ALLEGRO_DISPLAY * display, int num_icons, ALLEGRO_BITMAP ** icons)
+void al$set_display_icons(ALLEGRO_DISPLAY * display, int num_icons, ALLEGRO_BITMAP *[] icons)
 {
 	return al_set_display_icons(display, num_icons, icons);
 }
@@ -1200,11 +1199,11 @@ int al$get_ram_size()
 {
 	return al_get_ram_size();
 }
-void al$register_assert_handler(void (*handler)(const char *, const char *, int, const char *))
+void al$register_assert_handler(void (*)(const char *, const char *, int, const char *) handler)
 {
 	return al_register_assert_handler(handler);
 }
-void al$register_trace_handler(void (* handler)(const char *))
+void al$register_trace_handler(void (*)(const char *) handler)
 {
 	return al_register_trace_handler(handler);
 }
@@ -1324,7 +1323,7 @@ ALLEGRO_FILE * al$open_fs_entry(ALLEGRO_FS_ENTRY * e, const char * mode)
 {
 	return al_open_fs_entry(e, mode);
 }
-int al$for_each_fs_entry(ALLEGRO_FS_ENTRY * dir, int (*callback)(ALLEGRO_FS_ENTRY *, void *), void * extra)
+int al$for_each_fs_entry(ALLEGRO_FS_ENTRY * dir, int (*)(ALLEGRO_FS_ENTRY *, void *) callback, void * extra)
 {
 	return al_for_each_fs_entry(dir, callback, extra);
 }
@@ -1760,7 +1759,7 @@ const char * al$get_default_shader_source(ALLEGRO_SHADER_PLATFORM platform, ALLE
 {
 	return al_get_default_shader_source(platform, type);
 }
-int al$install_system(int version, int (* atexit_ptr)(void (*)(void)))
+int al$install_system(int version, int (*)(void (*)(void)) atexit_ptr)
 {
 	return al_install_system(version, atexit_ptr);
 }
@@ -1808,7 +1807,7 @@ int al$inhibit_screensaver(bool inhibit)
 {
 	return al_inhibit_screensaver(inhibit);
 }
-ALLEGRO_THREAD * al$create_thread(void *(* proc)(ALLEGRO_THREAD *, void *), void * arg)
+ALLEGRO_THREAD * al$create_thread(void *(*)(ALLEGRO_THREAD *, void *) proc, void * arg)
 {
 	return al_create_thread(proc, arg);
 }
@@ -1832,7 +1831,7 @@ void al$destroy_thread(ALLEGRO_THREAD * thread)
 {
 	return al_destroy_thread(thread);
 }
-void al$run_detached_thread(void *(* proc)(void *), void * arg)
+void al$run_detached_thread(void *(*)(void *) proc, void * arg)
 {
 	return al_run_detached_thread(proc, arg);
 }

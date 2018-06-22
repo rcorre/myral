@@ -12,10 +12,7 @@ EXCLUDE_NAME = '_*'
 C_HEADERS = ['allegro5/allegro.h']
 
 def nameof(node):
-    if node.kind == cindex.TypeKind.POINTER:
-        name = node.get_pointee().spelling + '#'
-    else:
-        name = node.spelling
+    name = node.spelling.replace('*', '#')
 
     for prefix in STRIP_PREFIX:
         if name.startswith(prefix):
@@ -90,8 +87,8 @@ def glue_code(node):
 index = cindex.Index.create()
 tu = index.parse(sys.argv[1])
 with open('test.myr', 'w') as myr_file, open('test.glue.c', 'w') as glue_file:
-    for name in C_HEADERS:
-        glue_file.write('#include "{}"\n'.format(name))
+    for header in C_HEADERS:
+        glue_file.write('#include "{}"\n'.format(header))
     for child in tu.cursor.get_children():
         header = child.location.file.name
         if not fnmatch.fnmatch(header, INCLUDE_HEADER):
