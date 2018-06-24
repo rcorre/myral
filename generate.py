@@ -45,10 +45,26 @@ def myr_typedef(node):
 def myr_var(node):
     return 'var {} : {}'.format(nameof(node), nameof(node.type))
 
+def glue_arg(a, i):
+    name = a.spelling or 'arg{}'.format(i)
+
+    result = a.type.get_pointee().get_result().spelling
+    if result:
+        # is a function pointer
+        args = ', '.join(glue_arg(a, i)
+                         for i, a in enumerate(a.get_children()))
+        return '{} (*{})({})'.format(result, name, args)
+
+    el_type = a.type.get_array_element_type().spelling
+    if el_type:
+        # is an array
+        return '{} {}[]'.format(el_type, name)
+
+    return '{} {}'.format(a.type.spelling, name)
+
 def glue_func(node):
     ret = node.result_type.spelling
-    args = ', '.join('{} {}'.format(a.type.spelling,
-                                    a.spelling or 'arg{}'.format(i))
+    args = ', '.join(glue_arg(a, i)
                      for i, a in enumerate(node.get_arguments()))
     argnames = ', '.join(a.spelling or 'arg{}'.format(i)
                          for i, a in enumerate(node.get_arguments()))
