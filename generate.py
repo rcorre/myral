@@ -19,8 +19,16 @@ def nameof(node):
             name = name[len(prefix):]
     return name
 
+# TODO: you can reuse arg names?
 def myr_arg(a, i):
     name = a.spelling or 'arg{}'.format(i)
+
+    result = a.type.get_pointee().get_result().spelling
+    if result:
+        # is a function pointer
+        args = ', '.join(myr_arg(a, i)
+                         for i, a in enumerate(a.get_children()))
+        return '{}: ({} -> {})'.format(name, args, result)
     return '{}: {}'.format(name, nameof(a.type))
 
 def myr_func(node):

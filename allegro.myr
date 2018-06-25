@@ -1,5 +1,5 @@
 extern const get_allegro_version : ( -> uint32_t)
-extern const run_main : (argc: int, argv: char ##, arg2: int (#)(int, char ##) -> int)
+extern const run_main : (argc: int, argv: char ##, arg2: (arg0: int, arg1: char ## -> int) -> int)
 type TIMEOUT = struct
 ;;
 extern const get_time : ( -> double)
@@ -390,7 +390,7 @@ type EVENT = union
 ;;
 extern const init_user_event_source : (arg0: EVENT_SOURCE # -> void)
 extern const destroy_user_event_source : (arg0: EVENT_SOURCE # -> void)
-extern const emit_user_event : (arg0: EVENT_SOURCE #, arg1: EVENT #, dtor: void (#)(ALLEGRO_USER_EVENT #) -> int)
+extern const emit_user_event : (arg0: EVENT_SOURCE #, arg1: EVENT #, dtor: (arg0: USER_EVENT # -> void) -> int)
 extern const unref_user_event : (arg0: USER_EVENT # -> void)
 extern const set_event_source_data : (arg0: EVENT_SOURCE #, data: intptr_t -> void)
 extern const get_event_source_data : (arg0: const ALLEGRO_EVENT_SOURCE # -> intptr_t)
@@ -566,8 +566,8 @@ extern const get_first_config_entry : (config: const ALLEGRO_CONFIG #, section: 
 extern const get_next_config_entry : (iterator: CONFIG_ENTRY ## -> const char #)
 extern const get_cpu_count : ( -> int)
 extern const get_ram_size : ( -> int)
-extern const register_assert_handler : (handler: void (#)(const char #, const char #, int, const char #) -> void)
-extern const register_trace_handler : (handler: void (#)(const char #) -> void)
+extern const register_assert_handler : (handler: (expr: const char #, file: const char #, line: int, func: const char # -> void) -> void)
+extern const register_trace_handler : (handler: (arg0: const char # -> void) -> void)
 extern const clear_to_color : (color: COLOR -> void)
 extern const clear_depth_buffer : (x: float -> void)
 extern const draw_pixel : (x: float, y: float, color: COLOR -> void)
@@ -622,7 +622,7 @@ type FOR_EACH_FS_ENTRY_RESULT = union
 ;;
 type FOR_EACH_FS_ENTRY_RESULT = struct
 ;;
-extern const for_each_fs_entry : (dir: FS_ENTRY #, callback: int (#)(ALLEGRO_FS_ENTRY #, void #), extra: void # -> int)
+extern const for_each_fs_entry : (dir: FS_ENTRY #, callback: (entry: FS_ENTRY #, extra: void # -> int), extra: void # -> int)
 extern const get_fs_interface : ( -> const ALLEGRO_FS_INTERFACE #)
 extern const set_fs_interface : (vtable: const ALLEGRO_FS_INTERFACE # -> void)
 extern const set_standard_fs_interface : ( -> void)
@@ -1005,7 +1005,7 @@ extern const set_shader_bool : (name: const char #, b: bool -> int)
 extern const get_default_shader_source : (platform: SHADER_PLATFORM, type: SHADER_TYPE -> const char #)
 type SYSTEM = struct
 ;;
-extern const install_system : (version: int, atexit_ptr: int (#)(void (#)(void)) -> int)
+extern const install_system : (version: int, atexit_ptr: (arg0: ( -> void) -> int) -> int)
 extern const uninstall_system : ( -> void)
 extern const is_system_installed : ( -> int)
 extern const get_system_driver : ( -> SYSTEM #)
@@ -1033,13 +1033,13 @@ type MUTEX = struct
 ;;
 type COND = struct
 ;;
-extern const create_thread : (proc: void #(#)(ALLEGRO_THREAD #, void #), arg: void # -> THREAD #)
+extern const create_thread : (proc: (thread: THREAD #, arg: void # -> void *), arg: void # -> THREAD #)
 extern const start_thread : (outer: THREAD # -> void)
 extern const join_thread : (outer: THREAD #, ret_value: void ## -> void)
 extern const set_thread_should_stop : (outer: THREAD # -> void)
 extern const get_thread_should_stop : (outer: THREAD # -> int)
 extern const destroy_thread : (thread: THREAD # -> void)
-extern const run_detached_thread : (proc: void #(#)(void #), arg: void # -> void)
+extern const run_detached_thread : (proc: (arg: void # -> void *), arg: void # -> void)
 extern const create_mutex : ( -> MUTEX #)
 extern const create_mutex_recursive : ( -> MUTEX #)
 extern const lock_mutex : (mutex: MUTEX # -> void)
