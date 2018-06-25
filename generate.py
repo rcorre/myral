@@ -19,9 +19,12 @@ def nameof(node):
             name = name[len(prefix):]
     return name
 
+def myr_arg(a, i):
+    name = a.spelling or 'arg{}'.format(i)
+    return '{}: {}'.format(name, nameof(a.type))
+
 def myr_func(node):
-    args = ', '.join('{}: {}'.format(a.spelling, nameof(a.type))
-                     for a in node.get_arguments())
+    args = ', '.join(myr_arg(a, i) for i, a in enumerate(node.get_arguments()))
     ret = nameof(node.result_type)
     return 'extern const {} : ({} -> {})'.format(nameof(node), args, ret)
 
