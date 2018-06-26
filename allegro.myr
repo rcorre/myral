@@ -41,11 +41,11 @@ type PIXEL_FORMAT = union
 	`PIXEL_FORMAT_COMPRESSED_RGBA_DXT5
 	`NUM_PIXEL_FORMATS
 ;;
-extern const map_rgb : (r: unsigned char, g: unsigned char, b: unsigned char -> COLOR)
-extern const map_rgba : (r: unsigned char, g: unsigned char, b: unsigned char, a: unsigned char -> COLOR)
+extern const map_rgb : (r: byte, g: byte, b: byte -> COLOR)
+extern const map_rgba : (r: byte, g: byte, b: byte, a: byte -> COLOR)
 extern const map_rgb_f : (r: float, g: float, b: float -> COLOR)
 extern const map_rgba_f : (r: float, g: float, b: float, a: float -> COLOR)
-extern const premul_rgba : (r: unsigned char, g: unsigned char, b: unsigned char, a: unsigned char -> COLOR)
+extern const premul_rgba : (r: byte, g: byte, b: byte, a: byte -> COLOR)
 extern const premul_rgba_f : (r: float, g: float, b: float, a: float -> COLOR)
 extern const unmap_rgb : (color: COLOR, r: unsigned char #, g: unsigned char #, b: unsigned char # -> void)
 extern const unmap_rgba : (color: COLOR, r: unsigned char #, g: unsigned char #, b: unsigned char #, a: unsigned char # -> void)

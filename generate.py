@@ -14,6 +14,8 @@ C_HEADERS = ['allegro5/allegro.h']
 enums = set()
 
 def nameof(node):
+    if node.kind == cindex.TypeKind.UCHAR:
+        return 'byte'
     name = node.spelling.replace('*', '#')
 
     for prefix in STRIP_PREFIX:
