@@ -41,8 +41,6 @@ type PIXEL_FORMAT = union
 	`PIXEL_FORMAT_COMPRESSED_RGBA_DXT5
 	`NUM_PIXEL_FORMATS
 ;;
-type PIXEL_FORMAT = struct
-;;
 extern const map_rgb : (r: unsigned char, g: unsigned char, b: unsigned char -> COLOR)
 extern const map_rgba : (r: unsigned char, g: unsigned char, b: unsigned char, a: unsigned char -> COLOR)
 extern const map_rgb_f : (r: float, g: float, b: float -> COLOR)
@@ -220,8 +218,6 @@ type SEEK = union
 	`SEEK_SET
 	`SEEK_CUR
 	`SEEK_END
-;;
-type SEEK = struct
 ;;
 extern const fopen : (path: const char #, mode: const char # -> FILE #)
 extern const fopen_interface : (vt: const ALLEGRO_FILE_INTERFACE #, path: const char #, mode: const char # -> FILE #)
@@ -590,8 +586,6 @@ type FILE_MODE = union
 	`FILEMODE_ISFILE
 	`FILEMODE_ISDIR
 ;;
-type FILE_MODE = struct
-;;
 type FS_INTERFACE = struct
 ;;
 extern const create_fs_entry : (path: const char # -> FS_ENTRY #)
@@ -619,8 +613,6 @@ type FOR_EACH_FS_ENTRY_RESULT = union
 	`FOR_EACH_FS_ENTRY_OK
 	`FOR_EACH_FS_ENTRY_SKIP
 	`FOR_EACH_FS_ENTRY_STOP
-;;
-type FOR_EACH_FS_ENTRY_RESULT = struct
 ;;
 extern const for_each_fs_entry : (dir: FS_ENTRY #, callback: (entry: FS_ENTRY #, extra: void # -> int), extra: void # -> int)
 extern const get_fs_interface : ( -> const ALLEGRO_FS_INTERFACE #)
@@ -902,8 +894,6 @@ type SYSTEM_MOUSE_CURSOR = union
 	`SYSTEM_MOUSE_CURSOR_UNAVAILABLE
 	`NUM_SYSTEM_MOUSE_CURSORS
 ;;
-type SYSTEM_MOUSE_CURSOR = struct
-;;
 extern const create_mouse_cursor : (sprite: struct ALLEGRO_BITMAP #, xfocus: int, yfocus: int -> MOUSE_CURSOR #)
 extern const destroy_mouse_cursor : (arg0: MOUSE_CURSOR # -> void)
 extern const set_mouse_cursor : (display: struct ALLEGRO_DISPLAY #, cursor: MOUSE_CURSOR # -> int)
@@ -918,8 +908,6 @@ type RENDER_STATE = union
 	`ALPHA_FUNCTION
 	`ALPHA_TEST_VALUE
 ;;
-type RENDER_STATE = struct
-;;
 type RENDER_FUNCTION = union
 	`RENDER_NEVER
 	`RENDER_ALWAYS
@@ -930,8 +918,6 @@ type RENDER_FUNCTION = union
 	`RENDER_NOT_EQUAL
 	`RENDER_GREATER_EQUAL
 ;;
-type RENDER_FUNCTION = struct
-;;
 type WRITE_MASK_FLAGS = union
 	`MASK_RED
 	`MASK_GREEN
@@ -940,8 +926,6 @@ type WRITE_MASK_FLAGS = union
 	`MASK_DEPTH
 	`MASK_RGB
 	`MASK_RGBA
-;;
-type WRITE_MASK_FLAGS = struct
 ;;
 extern const set_render_state : (state: RENDER_STATE, value: int -> void)
 type TRANSFORM = struct
@@ -978,14 +962,10 @@ type SHADER_TYPE = union
 	`VERTEX_SHADER
 	`PIXEL_SHADER
 ;;
-type SHADER_TYPE = struct
-;;
 type SHADER_PLATFORM = union
 	`SHADER_AUTO
 	`SHADER_GLSL
 	`SHADER_HLSL
-;;
-type SHADER_PLATFORM = struct
 ;;
 extern const create_shader : (platform: SHADER_PLATFORM -> SHADER #)
 extern const attach_shader_source : (shader: SHADER #, type: SHADER_TYPE, source: const char # -> int)
@@ -1076,8 +1056,6 @@ type STATE_FLAGS = union
 	`STATE_PROJECTION_TRANSFORM
 	`STATE_BITMAP
 	`STATE_ALL
-;;
-type STATE_FLAGS = struct
 ;;
 type STATE = struct
 ;;

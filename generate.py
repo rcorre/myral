@@ -11,6 +11,8 @@ EXCLUDE_HEADER = '*/allegro5/inline/*'
 EXCLUDE_NAME = '_*'
 C_HEADERS = ['allegro5/allegro.h']
 
+enums = set()
+
 def nameof(node):
     name = node.spelling.replace('*', '#')
 
@@ -85,14 +87,18 @@ def glue_func(node):
                       '}'])
 
 def myr_code(node):
+    name = node.spelling
     kind = node.kind
     if kind == cindex.CursorKind.FUNCTION_DECL:
         return myr_func(node)
     elif kind == cindex.CursorKind.ENUM_DECL:
+        enums.add(name)
         return myr_enum(node)
     elif kind == cindex.CursorKind.UNION_DECL:
         return myr_union(node)
     elif kind == cindex.CursorKind.TYPEDEF_DECL:
+        if name in enums:
+            return
         typ = node.underlying_typedef_type
         if typ.kind == cindex.TypeKind.ELABORATED:
             return myr_struct(node)
