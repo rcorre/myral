@@ -13,10 +13,21 @@ C_HEADERS = ['allegro5/allegro.h']
 
 enums = set()
 
-def nameof(node):
+def myr_type(node):
+    pointee = node.get_pointee()
+    if pointee.kind != cindex.TypeKind.INVALID:
+        return myr_type(pointee) + " #"
     if node.kind == cindex.TypeKind.UCHAR:
         return 'byte'
-    name = node.spelling.replace('*', '#')
+
+    name = node.spelling
+    for prefix in STRIP_PREFIX:
+        if name.startswith(prefix):
+            name = name[len(prefix):]
+    return name
+
+def nameof(node):
+    name = node.spelling
 
     for prefix in STRIP_PREFIX:
         if name.startswith(prefix):
@@ -27,17 +38,17 @@ def nameof(node):
 def myr_arg(a, i):
     name = a.spelling or 'arg{}'.format(i)
 
-    result = a.type.get_pointee().get_result().spelling
-    if result:
+    result = a.type.get_pointee().get_result()
+    if result.spelling:
         # is a function pointer
         args = ', '.join(myr_arg(a, i)
                          for i, a in enumerate(a.get_children()))
-        return '{}: ({} -> {})'.format(name, args, result)
-    return '{}: {}'.format(name, nameof(a.type))
+        return '{}: ({} -> {})'.format(name, args, myr_type(result))
+    return '{}: {}'.format(name, myr_type(a.type))
 
 def myr_func(node):
     args = ', '.join(myr_arg(a, i) for i, a in enumerate(node.get_arguments()))
-    ret = nameof(node.result_type)
+    ret = myr_type(node.result_type)
     return 'extern const {} : ({} -> {})'.format(nameof(node), args, ret)
 
 def myr_enum(node):

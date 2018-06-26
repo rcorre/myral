@@ -1,5 +1,5 @@
 extern const get_allegro_version : ( -> uint32_t)
-extern const run_main : (argc: int, argv: char ##, arg2: (arg0: int, arg1: char ## -> int) -> int)
+extern const run_main : (argc: int, argv: char # #, arg2: (arg0: int, arg1: char # # -> int) -> int)
 type TIMEOUT = struct
 ;;
 extern const get_time : ( -> double)
@@ -47,8 +47,8 @@ extern const map_rgb_f : (r: float, g: float, b: float -> COLOR)
 extern const map_rgba_f : (r: float, g: float, b: float, a: float -> COLOR)
 extern const premul_rgba : (r: byte, g: byte, b: byte, a: byte -> COLOR)
 extern const premul_rgba_f : (r: float, g: float, b: float, a: float -> COLOR)
-extern const unmap_rgb : (color: COLOR, r: unsigned char #, g: unsigned char #, b: unsigned char # -> void)
-extern const unmap_rgba : (color: COLOR, r: unsigned char #, g: unsigned char #, b: unsigned char #, a: unsigned char # -> void)
+extern const unmap_rgb : (color: COLOR, r: byte #, g: byte #, b: byte # -> void)
+extern const unmap_rgba : (color: COLOR, r: byte #, g: byte #, b: byte #, a: byte # -> void)
 extern const unmap_rgb_f : (color: COLOR, r: float #, g: float #, b: float # -> void)
 extern const unmap_rgba_f : (color: COLOR, r: float #, g: float #, b: float #, a: float # -> void)
 extern const get_pixel_size : (format: int -> int)
@@ -244,13 +244,13 @@ extern const fread32le : (f: FILE # -> int32_t)
 extern const fread32be : (f: FILE # -> int32_t)
 extern const fwrite32le : (f: FILE #, l: int32_t -> int)
 extern const fwrite32be : (f: FILE #, l: int32_t -> int)
-extern const fgets : (f: FILE #, p: char #const, max: int -> char #)
+extern const fgets : (f: FILE #, p: char #, max: int -> char #)
 extern const fget_ustr : (f: FILE # -> USTR #)
 extern const fputs : (f: FILE #, p: const char # -> int)
 extern const fprintf : (f: FILE #, format: const char # -> int)
 extern const vfprintf : (f: FILE #, format: const char #, args: int -> int)
 extern const fopen_fd : (fd: int, mode: const char # -> FILE #)
-extern const make_temp_file : (tmpl: const char #, ret_path: PATH ## -> FILE #)
+extern const make_temp_file : (tmpl: const char #, ret_path: PATH # # -> FILE #)
 extern const fopen_slice : (fp: FILE #, initial_size: int, mode: const char # -> FILE #)
 extern const get_new_file_interface : ( -> const ALLEGRO_FILE_INTERFACE #)
 extern const set_new_file_interface : (file_interface: const ALLEGRO_FILE_INTERFACE # -> void)
@@ -261,11 +261,11 @@ type  = union
 	`NO_PREMULTIPLIED_ALPHA
 	`KEEP_INDEX
 ;;
-type IIO_LOADER_FUNCTION = BITMAP #(#)(const char #, int);;
-type IIO_FS_LOADER_FUNCTION = BITMAP #(#)(ALLEGRO_FILE #, int);;
-type bool = int (int #);;
-type IIO_FS_SAVER_FUNCTION = int (#)(ALLEGRO_FILE #, ALLEGRO_BITMAP #);;
-type IIO_IDENTIFIER_FUNCTION = int (#)(ALLEGRO_FILE #);;
+type IIO_LOADER_FUNCTION = BITMAP *(*)(const char *, int);;
+type IIO_FS_LOADER_FUNCTION = BITMAP *(*)(ALLEGRO_FILE *, int);;
+type bool = int (int *);;
+type IIO_FS_SAVER_FUNCTION = int (*)(ALLEGRO_FILE *, ALLEGRO_BITMAP *);;
+type IIO_IDENTIFIER_FUNCTION = int (*)(ALLEGRO_FILE *);;
 extern const register_bitmap_loader : (ext: const char #, loader: IIO_LOADER_FUNCTION -> int)
 extern const register_bitmap_saver : (ext: const char #, saver: int -> int)
 extern const register_bitmap_loader_f : (ext: const char #, fs_loader: IIO_FS_LOADER_FUNCTION -> int)
@@ -513,7 +513,7 @@ extern const is_compatible_bitmap : (bitmap: BITMAP # -> int)
 extern const wait_for_vsync : ( -> int)
 extern const get_display_event_source : (display: DISPLAY # -> EVENT_SOURCE #)
 extern const set_display_icon : (display: DISPLAY #, icon: BITMAP # -> void)
-extern const set_display_icons : (display: DISPLAY #, num_icons: int, icons: BITMAP #[] -> void)
+extern const set_display_icons : (display: DISPLAY #, num_icons: int, icons: BITMAP *[] -> void)
 extern const get_new_display_adapter : ( -> int)
 extern const set_new_display_adapter : (adapter: int -> void)
 extern const set_new_window_position : (x: int, y: int -> void)
@@ -556,10 +556,10 @@ extern const merge_config : (cfg1: const ALLEGRO_CONFIG #, cfg2: const ALLEGRO_C
 extern const destroy_config : (config: CONFIG # -> void)
 extern const remove_config_section : (config: CONFIG #, section: const char # -> int)
 extern const remove_config_key : (config: CONFIG #, section: const char #, key: const char # -> int)
-extern const get_first_config_section : (config: const ALLEGRO_CONFIG #, iterator: CONFIG_SECTION ## -> const char #)
-extern const get_next_config_section : (iterator: CONFIG_SECTION ## -> const char #)
-extern const get_first_config_entry : (config: const ALLEGRO_CONFIG #, section: const char #, iterator: CONFIG_ENTRY ## -> const char #)
-extern const get_next_config_entry : (iterator: CONFIG_ENTRY ## -> const char #)
+extern const get_first_config_section : (config: const ALLEGRO_CONFIG #, iterator: CONFIG_SECTION # # -> const char #)
+extern const get_next_config_section : (iterator: CONFIG_SECTION # # -> const char #)
+extern const get_first_config_entry : (config: const ALLEGRO_CONFIG #, section: const char #, iterator: CONFIG_ENTRY # # -> const char #)
+extern const get_next_config_entry : (iterator: CONFIG_ENTRY # # -> const char #)
 extern const get_cpu_count : ( -> int)
 extern const get_ram_size : ( -> int)
 extern const register_assert_handler : (handler: (expr: const char #, file: const char #, line: int, func: const char # -> void) -> void)
@@ -1013,13 +1013,13 @@ type MUTEX = struct
 ;;
 type COND = struct
 ;;
-extern const create_thread : (proc: (thread: THREAD #, arg: void # -> void *), arg: void # -> THREAD #)
+extern const create_thread : (proc: (thread: THREAD #, arg: void # -> void #), arg: void # -> THREAD #)
 extern const start_thread : (outer: THREAD # -> void)
-extern const join_thread : (outer: THREAD #, ret_value: void ## -> void)
+extern const join_thread : (outer: THREAD #, ret_value: void # # -> void)
 extern const set_thread_should_stop : (outer: THREAD # -> void)
 extern const get_thread_should_stop : (outer: THREAD # -> int)
 extern const destroy_thread : (thread: THREAD # -> void)
-extern const run_detached_thread : (proc: (arg: void # -> void *), arg: void # -> void)
+extern const run_detached_thread : (proc: (arg: void # -> void #), arg: void # -> void)
 extern const create_mutex : ( -> MUTEX #)
 extern const create_mutex_recursive : ( -> MUTEX #)
 extern const lock_mutex : (mutex: MUTEX # -> void)
