@@ -5,7 +5,7 @@ import sys
 from clang import cindex
 
 PACKAGE = 'al'
-STRIP_PREFIX = ['al_', 'ALLEGRO_']
+STRIP_PREFIX = ['al_', 'ALLEGRO_', '_ALLEGRO']
 INCLUDE_HEADER = '*/allegro5/*'
 EXCLUDE_HEADER = '*/allegro5/inline/*'
 EXCLUDE_NAME = '_*'
@@ -52,6 +52,9 @@ def myr_func(node):
     return 'extern const {} : ({} -> {})'.format(nameof(node), args, ret)
 
 def myr_enum(node):
+    if not node.spelling:
+        return '\n'.join('const {} = {}'.format(nameof(c), c.enum_value)
+                         for c in node.get_children())
     fields = '\n'.join('\t`{}'.format(nameof(c))
                        for c in node.get_children())
     return 'type {} = union\n{}\n;;'.format(nameof(node), fields)

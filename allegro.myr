@@ -58,20 +58,18 @@ extern const get_pixel_block_width : (format: int -> int)
 extern const get_pixel_block_height : (format: int -> int)
 type BITMAP = struct
 ;;
-type  = union
-	`MEMORY_BITMAP
-	`_ALLEGRO_KEEP_BITMAP_FORMAT
-	`FORCE_LOCKING
-	`NO_PRESERVE_TEXTURE
-	`_ALLEGRO_ALPHA_TEST
-	`_ALLEGRO_INTERNAL_OPENGL
-	`MIN_LINEAR
-	`MAG_LINEAR
-	`MIPMAP
-	`_ALLEGRO_NO_PREMULTIPLIED_ALPHA
-	`VIDEO_BITMAP
-	`CONVERT_BITMAP
-;;
+const MEMORY_BITMAP = 1
+const _KEEP_BITMAP_FORMAT = 2
+const FORCE_LOCKING = 4
+const NO_PRESERVE_TEXTURE = 8
+const _ALPHA_TEST = 16
+const _INTERNAL_OPENGL = 32
+const MIN_LINEAR = 64
+const MAG_LINEAR = 128
+const MIPMAP = 256
+const _NO_PREMULTIPLIED_ALPHA = 512
+const VIDEO_BITMAP = 1024
+const CONVERT_BITMAP = 4096
 extern const set_new_bitmap_format : (format: int -> void)
 extern const set_new_bitmap_flags : (flags: int -> void)
 extern const get_new_bitmap_format : ( -> int)
@@ -99,10 +97,8 @@ extern const reparent_bitmap : (bitmap: BITMAP #, parent: BITMAP #, x: int, y: i
 extern const clone_bitmap : (bitmap: BITMAP # -> BITMAP #)
 extern const convert_bitmap : (bitmap: BITMAP # -> void)
 extern const convert_memory_bitmaps : ( -> void)
-type  = union
-	`FLIP_HORIZONTAL
-	`FLIP_VERTICAL
-;;
+const FLIP_HORIZONTAL = 1
+const FLIP_VERTICAL = 2
 extern const draw_bitmap : (bitmap: BITMAP #, dx: float, dy: float, flags: int -> void)
 extern const draw_bitmap_region : (bitmap: BITMAP #, sx: float, sy: float, sw: float, sh: float, dx: float, dy: float, flags: int -> void)
 extern const draw_scaled_bitmap : (bitmap: BITMAP #, sx: float, sy: float, sw: float, sh: float, dx: float, dy: float, dw: float, dh: float, flags: int -> void)
@@ -256,11 +252,9 @@ extern const get_new_file_interface : ( -> const ALLEGRO_FILE_INTERFACE #)
 extern const set_new_file_interface : (file_interface: const ALLEGRO_FILE_INTERFACE # -> void)
 extern const set_standard_file_interface : ( -> void)
 extern const get_file_userdata : (f: FILE # -> void #)
-type  = union
-	`KEEP_BITMAP_FORMAT
-	`NO_PREMULTIPLIED_ALPHA
-	`KEEP_INDEX
-;;
+const KEEP_BITMAP_FORMAT = 2
+const NO_PREMULTIPLIED_ALPHA = 512
+const KEEP_INDEX = 2048
 type IIO_LOADER_FUNCTION = BITMAP *(*)(const char *, int);;
 type IIO_FS_LOADER_FUNCTION = BITMAP *(*)(ALLEGRO_FILE *, int);;
 type bool = int (int *);;
@@ -279,11 +273,9 @@ extern const save_bitmap : (filename: const char #, bitmap: BITMAP # -> int)
 extern const save_bitmap_f : (fp: FILE #, ident: const char #, bitmap: BITMAP # -> int)
 extern const identify_bitmap_f : (fp: FILE # -> const char #)
 extern const identify_bitmap : (filename: const char # -> const char #)
-type  = union
-	`LOCK_READWRITE
-	`LOCK_READONLY
-	`LOCK_WRITEONLY
-;;
+const LOCK_READWRITE = 0
+const LOCK_READONLY = 1
+const LOCK_WRITEONLY = 2
 type LOCKED_REGION = struct
 ;;
 extern const lock_bitmap : (bitmap: BITMAP #, format: int, flags: int -> LOCKED_REGION #)
@@ -318,38 +310,36 @@ extern const get_blend_color : ( -> COLOR)
 extern const set_separate_blender : (op: int, source: int, dest: int, alpha_op: int, alpha_source: int, alpha_dest: int -> void)
 extern const get_separate_blender : (op: int #, source: int #, dest: int #, alpha_op: int #, alpha_src: int #, alpha_dest: int # -> void)
 type EVENT_TYPE = unsigned int;;
-type  = union
-	`EVENT_JOYSTICK_AXIS
-	`EVENT_JOYSTICK_BUTTON_DOWN
-	`EVENT_JOYSTICK_BUTTON_UP
-	`EVENT_JOYSTICK_CONFIGURATION
-	`EVENT_KEY_DOWN
-	`EVENT_KEY_CHAR
-	`EVENT_KEY_UP
-	`EVENT_MOUSE_AXES
-	`EVENT_MOUSE_BUTTON_DOWN
-	`EVENT_MOUSE_BUTTON_UP
-	`EVENT_MOUSE_ENTER_DISPLAY
-	`EVENT_MOUSE_LEAVE_DISPLAY
-	`EVENT_MOUSE_WARPED
-	`EVENT_TIMER
-	`EVENT_DISPLAY_EXPOSE
-	`EVENT_DISPLAY_RESIZE
-	`EVENT_DISPLAY_CLOSE
-	`EVENT_DISPLAY_LOST
-	`EVENT_DISPLAY_FOUND
-	`EVENT_DISPLAY_SWITCH_IN
-	`EVENT_DISPLAY_SWITCH_OUT
-	`EVENT_DISPLAY_ORIENTATION
-	`EVENT_DISPLAY_HALT_DRAWING
-	`EVENT_DISPLAY_RESUME_DRAWING
-	`EVENT_TOUCH_BEGIN
-	`EVENT_TOUCH_END
-	`EVENT_TOUCH_MOVE
-	`EVENT_TOUCH_CANCEL
-	`EVENT_DISPLAY_CONNECTED
-	`EVENT_DISPLAY_DISCONNECTED
-;;
+const EVENT_JOYSTICK_AXIS = 1
+const EVENT_JOYSTICK_BUTTON_DOWN = 2
+const EVENT_JOYSTICK_BUTTON_UP = 3
+const EVENT_JOYSTICK_CONFIGURATION = 4
+const EVENT_KEY_DOWN = 10
+const EVENT_KEY_CHAR = 11
+const EVENT_KEY_UP = 12
+const EVENT_MOUSE_AXES = 20
+const EVENT_MOUSE_BUTTON_DOWN = 21
+const EVENT_MOUSE_BUTTON_UP = 22
+const EVENT_MOUSE_ENTER_DISPLAY = 23
+const EVENT_MOUSE_LEAVE_DISPLAY = 24
+const EVENT_MOUSE_WARPED = 25
+const EVENT_TIMER = 30
+const EVENT_DISPLAY_EXPOSE = 40
+const EVENT_DISPLAY_RESIZE = 41
+const EVENT_DISPLAY_CLOSE = 42
+const EVENT_DISPLAY_LOST = 43
+const EVENT_DISPLAY_FOUND = 44
+const EVENT_DISPLAY_SWITCH_IN = 45
+const EVENT_DISPLAY_SWITCH_OUT = 46
+const EVENT_DISPLAY_ORIENTATION = 47
+const EVENT_DISPLAY_HALT_DRAWING = 48
+const EVENT_DISPLAY_RESUME_DRAWING = 49
+const EVENT_TOUCH_BEGIN = 50
+const EVENT_TOUCH_END = 51
+const EVENT_TOUCH_MOVE = 52
+const EVENT_TOUCH_CANCEL = 53
+const EVENT_DISPLAY_CONNECTED = 60
+const EVENT_DISPLAY_DISCONNECTED = 61
 type EVENT_SOURCE = struct
 ;;
 type ANY_EVENT = struct
@@ -407,24 +397,22 @@ extern const flush_event_queue : (arg0: EVENT_QUEUE # -> void)
 extern const wait_for_event : (arg0: EVENT_QUEUE #, ret_event: EVENT # -> void)
 extern const wait_for_event_timed : (arg0: EVENT_QUEUE #, ret_event: EVENT #, secs: float -> int)
 extern const wait_for_event_until : (queue: EVENT_QUEUE #, ret_event: EVENT #, timeout: TIMEOUT # -> int)
-type  = union
-	`WINDOWED
-	`FULLSCREEN
-	`OPENGL
-	`DIRECT3D_INTERNAL
-	`RESIZABLE
-	`FRAMELESS
-	`NOFRAME
-	`GENERATE_EXPOSE_EVENTS
-	`OPENGL_3_0
-	`OPENGL_FORWARD_COMPATIBLE
-	`FULLSCREEN_WINDOW
-	`MINIMIZED
-	`PROGRAMMABLE_PIPELINE
-	`GTK_TOPLEVEL_INTERNAL
-	`MAXIMIZED
-	`OPENGL_ES_PROFILE
-;;
+const WINDOWED = 1
+const FULLSCREEN = 2
+const OPENGL = 4
+const DIRECT3D_INTERNAL = 8
+const RESIZABLE = 16
+const FRAMELESS = 32
+const NOFRAME = 32
+const GENERATE_EXPOSE_EVENTS = 64
+const OPENGL_3_0 = 128
+const OPENGL_FORWARD_COMPATIBLE = 256
+const FULLSCREEN_WINDOW = 512
+const MINIMIZED = 1024
+const PROGRAMMABLE_PIPELINE = 2048
+const GTK_TOPLEVEL_INTERNAL = 4096
+const MAXIMIZED = 8192
+const OPENGL_ES_PROFILE = 16384
 type DISPLAY_OPTIONS = union
 	`RED_SIZE
 	`GREEN_SIZE
@@ -463,11 +451,9 @@ type DISPLAY_OPTIONS = union
 	`OPENGL_MINOR_VERSION
 	`DISPLAY_OPTIONS_COUNT
 ;;
-type  = union
-	`DONTCARE
-	`REQUIRE
-	`SUGGEST
-;;
+const DONTCARE = 0
+const REQUIRE = 1
+const SUGGEST = 2
 type DISPLAY_ORIENTATION = union
 	`DISPLAY_ORIENTATION_UNKNOWN
 	`DISPLAY_ORIENTATION_0_DEGREES
@@ -480,9 +466,7 @@ type DISPLAY_ORIENTATION = union
 	`DISPLAY_ORIENTATION_FACE_UP
 	`DISPLAY_ORIENTATION_FACE_DOWN
 ;;
-type  = union
-	`_ALLEGRO_PRIM_MAX_USER_ATTR
-;;
+const _PRIM_MAX_USER_ATTR = 10
 type DISPLAY = struct
 ;;
 extern const set_new_display_refresh_rate : (refresh_rate: int -> void)
@@ -648,168 +632,164 @@ extern const get_joystick_num_buttons : (arg0: JOYSTICK # -> int)
 extern const get_joystick_button_name : (arg0: JOYSTICK #, buttonn: int -> const char #)
 extern const get_joystick_state : (arg0: JOYSTICK #, ret_state: JOYSTICK_STATE # -> void)
 extern const get_joystick_event_source : ( -> EVENT_SOURCE #)
-type  = union
-	`KEY_A
-	`KEY_B
-	`KEY_C
-	`KEY_D
-	`KEY_E
-	`KEY_F
-	`KEY_G
-	`KEY_H
-	`KEY_I
-	`KEY_J
-	`KEY_K
-	`KEY_L
-	`KEY_M
-	`KEY_N
-	`KEY_O
-	`KEY_P
-	`KEY_Q
-	`KEY_R
-	`KEY_S
-	`KEY_T
-	`KEY_U
-	`KEY_V
-	`KEY_W
-	`KEY_X
-	`KEY_Y
-	`KEY_Z
-	`KEY_0
-	`KEY_1
-	`KEY_2
-	`KEY_3
-	`KEY_4
-	`KEY_5
-	`KEY_6
-	`KEY_7
-	`KEY_8
-	`KEY_9
-	`KEY_PAD_0
-	`KEY_PAD_1
-	`KEY_PAD_2
-	`KEY_PAD_3
-	`KEY_PAD_4
-	`KEY_PAD_5
-	`KEY_PAD_6
-	`KEY_PAD_7
-	`KEY_PAD_8
-	`KEY_PAD_9
-	`KEY_F1
-	`KEY_F2
-	`KEY_F3
-	`KEY_F4
-	`KEY_F5
-	`KEY_F6
-	`KEY_F7
-	`KEY_F8
-	`KEY_F9
-	`KEY_F10
-	`KEY_F11
-	`KEY_F12
-	`KEY_ESCAPE
-	`KEY_TILDE
-	`KEY_MINUS
-	`KEY_EQUALS
-	`KEY_BACKSPACE
-	`KEY_TAB
-	`KEY_OPENBRACE
-	`KEY_CLOSEBRACE
-	`KEY_ENTER
-	`KEY_SEMICOLON
-	`KEY_QUOTE
-	`KEY_BACKSLASH
-	`KEY_BACKSLASH2
-	`KEY_COMMA
-	`KEY_FULLSTOP
-	`KEY_SLASH
-	`KEY_SPACE
-	`KEY_INSERT
-	`KEY_DELETE
-	`KEY_HOME
-	`KEY_END
-	`KEY_PGUP
-	`KEY_PGDN
-	`KEY_LEFT
-	`KEY_RIGHT
-	`KEY_UP
-	`KEY_DOWN
-	`KEY_PAD_SLASH
-	`KEY_PAD_ASTERISK
-	`KEY_PAD_MINUS
-	`KEY_PAD_PLUS
-	`KEY_PAD_DELETE
-	`KEY_PAD_ENTER
-	`KEY_PRINTSCREEN
-	`KEY_PAUSE
-	`KEY_ABNT_C1
-	`KEY_YEN
-	`KEY_KANA
-	`KEY_CONVERT
-	`KEY_NOCONVERT
-	`KEY_AT
-	`KEY_CIRCUMFLEX
-	`KEY_COLON2
-	`KEY_KANJI
-	`KEY_PAD_EQUALS
-	`KEY_BACKQUOTE
-	`KEY_SEMICOLON2
-	`KEY_COMMAND
-	`KEY_BACK
-	`KEY_VOLUME_UP
-	`KEY_VOLUME_DOWN
-	`KEY_SEARCH
-	`KEY_DPAD_CENTER
-	`KEY_BUTTON_X
-	`KEY_BUTTON_Y
-	`KEY_DPAD_UP
-	`KEY_DPAD_DOWN
-	`KEY_DPAD_LEFT
-	`KEY_DPAD_RIGHT
-	`KEY_SELECT
-	`KEY_START
-	`KEY_BUTTON_L1
-	`KEY_BUTTON_R1
-	`KEY_BUTTON_L2
-	`KEY_BUTTON_R2
-	`KEY_BUTTON_A
-	`KEY_BUTTON_B
-	`KEY_THUMBL
-	`KEY_THUMBR
-	`KEY_UNKNOWN
-	`KEY_MODIFIERS
-	`KEY_LSHIFT
-	`KEY_RSHIFT
-	`KEY_LCTRL
-	`KEY_RCTRL
-	`KEY_ALT
-	`KEY_ALTGR
-	`KEY_LWIN
-	`KEY_RWIN
-	`KEY_MENU
-	`KEY_SCROLLLOCK
-	`KEY_NUMLOCK
-	`KEY_CAPSLOCK
-	`KEY_MAX
-;;
-type  = union
-	`KEYMOD_SHIFT
-	`KEYMOD_CTRL
-	`KEYMOD_ALT
-	`KEYMOD_LWIN
-	`KEYMOD_RWIN
-	`KEYMOD_MENU
-	`KEYMOD_ALTGR
-	`KEYMOD_COMMAND
-	`KEYMOD_SCROLLLOCK
-	`KEYMOD_NUMLOCK
-	`KEYMOD_CAPSLOCK
-	`KEYMOD_INALTSEQ
-	`KEYMOD_ACCENT1
-	`KEYMOD_ACCENT2
-	`KEYMOD_ACCENT3
-	`KEYMOD_ACCENT4
-;;
+const KEY_A = 1
+const KEY_B = 2
+const KEY_C = 3
+const KEY_D = 4
+const KEY_E = 5
+const KEY_F = 6
+const KEY_G = 7
+const KEY_H = 8
+const KEY_I = 9
+const KEY_J = 10
+const KEY_K = 11
+const KEY_L = 12
+const KEY_M = 13
+const KEY_N = 14
+const KEY_O = 15
+const KEY_P = 16
+const KEY_Q = 17
+const KEY_R = 18
+const KEY_S = 19
+const KEY_T = 20
+const KEY_U = 21
+const KEY_V = 22
+const KEY_W = 23
+const KEY_X = 24
+const KEY_Y = 25
+const KEY_Z = 26
+const KEY_0 = 27
+const KEY_1 = 28
+const KEY_2 = 29
+const KEY_3 = 30
+const KEY_4 = 31
+const KEY_5 = 32
+const KEY_6 = 33
+const KEY_7 = 34
+const KEY_8 = 35
+const KEY_9 = 36
+const KEY_PAD_0 = 37
+const KEY_PAD_1 = 38
+const KEY_PAD_2 = 39
+const KEY_PAD_3 = 40
+const KEY_PAD_4 = 41
+const KEY_PAD_5 = 42
+const KEY_PAD_6 = 43
+const KEY_PAD_7 = 44
+const KEY_PAD_8 = 45
+const KEY_PAD_9 = 46
+const KEY_F1 = 47
+const KEY_F2 = 48
+const KEY_F3 = 49
+const KEY_F4 = 50
+const KEY_F5 = 51
+const KEY_F6 = 52
+const KEY_F7 = 53
+const KEY_F8 = 54
+const KEY_F9 = 55
+const KEY_F10 = 56
+const KEY_F11 = 57
+const KEY_F12 = 58
+const KEY_ESCAPE = 59
+const KEY_TILDE = 60
+const KEY_MINUS = 61
+const KEY_EQUALS = 62
+const KEY_BACKSPACE = 63
+const KEY_TAB = 64
+const KEY_OPENBRACE = 65
+const KEY_CLOSEBRACE = 66
+const KEY_ENTER = 67
+const KEY_SEMICOLON = 68
+const KEY_QUOTE = 69
+const KEY_BACKSLASH = 70
+const KEY_BACKSLASH2 = 71
+const KEY_COMMA = 72
+const KEY_FULLSTOP = 73
+const KEY_SLASH = 74
+const KEY_SPACE = 75
+const KEY_INSERT = 76
+const KEY_DELETE = 77
+const KEY_HOME = 78
+const KEY_END = 79
+const KEY_PGUP = 80
+const KEY_PGDN = 81
+const KEY_LEFT = 82
+const KEY_RIGHT = 83
+const KEY_UP = 84
+const KEY_DOWN = 85
+const KEY_PAD_SLASH = 86
+const KEY_PAD_ASTERISK = 87
+const KEY_PAD_MINUS = 88
+const KEY_PAD_PLUS = 89
+const KEY_PAD_DELETE = 90
+const KEY_PAD_ENTER = 91
+const KEY_PRINTSCREEN = 92
+const KEY_PAUSE = 93
+const KEY_ABNT_C1 = 94
+const KEY_YEN = 95
+const KEY_KANA = 96
+const KEY_CONVERT = 97
+const KEY_NOCONVERT = 98
+const KEY_AT = 99
+const KEY_CIRCUMFLEX = 100
+const KEY_COLON2 = 101
+const KEY_KANJI = 102
+const KEY_PAD_EQUALS = 103
+const KEY_BACKQUOTE = 104
+const KEY_SEMICOLON2 = 105
+const KEY_COMMAND = 106
+const KEY_BACK = 107
+const KEY_VOLUME_UP = 108
+const KEY_VOLUME_DOWN = 109
+const KEY_SEARCH = 110
+const KEY_DPAD_CENTER = 111
+const KEY_BUTTON_X = 112
+const KEY_BUTTON_Y = 113
+const KEY_DPAD_UP = 114
+const KEY_DPAD_DOWN = 115
+const KEY_DPAD_LEFT = 116
+const KEY_DPAD_RIGHT = 117
+const KEY_SELECT = 118
+const KEY_START = 119
+const KEY_BUTTON_L1 = 120
+const KEY_BUTTON_R1 = 121
+const KEY_BUTTON_L2 = 122
+const KEY_BUTTON_R2 = 123
+const KEY_BUTTON_A = 124
+const KEY_BUTTON_B = 125
+const KEY_THUMBL = 126
+const KEY_THUMBR = 127
+const KEY_UNKNOWN = 128
+const KEY_MODIFIERS = 215
+const KEY_LSHIFT = 215
+const KEY_RSHIFT = 216
+const KEY_LCTRL = 217
+const KEY_RCTRL = 218
+const KEY_ALT = 219
+const KEY_ALTGR = 220
+const KEY_LWIN = 221
+const KEY_RWIN = 222
+const KEY_MENU = 223
+const KEY_SCROLLLOCK = 224
+const KEY_NUMLOCK = 225
+const KEY_CAPSLOCK = 226
+const KEY_MAX = 227
+const KEYMOD_SHIFT = 1
+const KEYMOD_CTRL = 2
+const KEYMOD_ALT = 4
+const KEYMOD_LWIN = 8
+const KEYMOD_RWIN = 16
+const KEYMOD_MENU = 32
+const KEYMOD_ALTGR = 64
+const KEYMOD_COMMAND = 128
+const KEYMOD_SCROLLLOCK = 256
+const KEYMOD_NUMLOCK = 512
+const KEYMOD_CAPSLOCK = 1024
+const KEYMOD_INALTSEQ = 2048
+const KEYMOD_ACCENT1 = 4096
+const KEYMOD_ACCENT2 = 8192
+const KEYMOD_ACCENT3 = 16384
+const KEYMOD_ACCENT4 = 32768
 type KEYBOARD = struct
 ;;
 type KEYBOARD_STATE = struct
@@ -864,9 +844,7 @@ extern const realloc_with_context : (ptr: void #, n: int, line: int, file: const
 extern const calloc_with_context : (count: int, n: int, line: int, file: const char #, func: const char # -> void #)
 type MONITOR_INFO = struct
 ;;
-type  = union
-	`DEFAULT_DISPLAY_ADAPTER
-;;
+const DEFAULT_DISPLAY_ADAPTER = -1
 extern const get_num_video_adapters : ( -> int)
 extern const get_monitor_info : (adapter: int, info: MONITOR_INFO # -> int)
 type MOUSE_CURSOR = struct
@@ -990,16 +968,14 @@ extern const uninstall_system : ( -> void)
 extern const is_system_installed : ( -> int)
 extern const get_system_driver : ( -> SYSTEM #)
 extern const get_system_config : ( -> CONFIG #)
-type  = union
-	`RESOURCES_PATH
-	`TEMP_PATH
-	`USER_DATA_PATH
-	`USER_HOME_PATH
-	`USER_SETTINGS_PATH
-	`USER_DOCUMENTS_PATH
-	`EXENAME_PATH
-	`LAST_PATH
-;;
+const RESOURCES_PATH = 0
+const TEMP_PATH = 1
+const USER_DATA_PATH = 2
+const USER_HOME_PATH = 3
+const USER_SETTINGS_PATH = 4
+const USER_DOCUMENTS_PATH = 5
+const EXENAME_PATH = 6
+const LAST_PATH = 7
 extern const get_standard_path : (id: int -> PATH #)
 extern const set_exe_name : (path: const char # -> void)
 extern const set_org_name : (org_name: const char # -> void)
