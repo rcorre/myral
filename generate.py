@@ -20,11 +20,7 @@ def myr_type(node):
     if node.kind == cindex.TypeKind.UCHAR:
         return 'byte'
 
-    name = node.spelling
-    for prefix in STRIP_PREFIX:
-        if name.startswith(prefix):
-            name = name[len(prefix):]
-    return name
+    return nameof(node).replace('const', '')
 
 def nameof(node):
     name = node.spelling
