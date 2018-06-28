@@ -19,6 +19,8 @@ def myr_type(node):
         return myr_type(pointee) + " #"
     if node.kind == cindex.TypeKind.UCHAR:
         return 'byte'
+    if node.kind == cindex.TypeKind.INCOMPLETEARRAY:
+        return myr_type(node.element_type) + '[:]'
 
     return nameof(node).replace('const', '')
 
