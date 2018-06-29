@@ -554,8 +554,8 @@ extern const draw_pixel : (x: float, y: float, color: COLOR -> void)
 extern const get_errno : ( -> int)
 extern const set_errno : (errnum: int -> void)
 type fixed = int32_t;;
-var fixtorad_r : const al_fixed
-var radtofix_r : const al_fixed
+var fixtorad_r :  al_fixed
+var radtofix_r :  al_fixed
 extern const fixsqrt : (x: fixed -> fixed)
 extern const fixhypot : (x: fixed, y: fixed -> fixed)
 extern const fixatan : (x: fixed -> fixed)

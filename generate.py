@@ -70,7 +70,7 @@ def myr_typedef(node):
     return 'type {} = {};;'.format(nameof(node), nameof(typ))
 
 def myr_var(node):
-    return 'var {} : {}'.format(nameof(node), nameof(node.type))
+    return 'var {} : {}'.format(nameof(node), myr_type(node.type))
 
 def glue_arg(a, i):
     name = a.spelling or 'arg{}'.format(i)
