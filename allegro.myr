@@ -257,7 +257,7 @@ const NO_PREMULTIPLIED_ALPHA = 512
 const KEEP_INDEX = 2048
 type IIO_LOADER_FUNCTION = (filename:  char #, flags: int -> BITMAP #)
 type IIO_FS_LOADER_FUNCTION = (fp: FILE #, flags: int -> BITMAP #)
-type bool = int (int *);;
+type bool = int (int *)
 type IIO_FS_SAVER_FUNCTION = ( -> int)
 type IIO_IDENTIFIER_FUNCTION = ( -> int)
 extern const register_bitmap_loader : (ext:  char #, loader: IIO_LOADER_FUNCTION -> int)
@@ -309,7 +309,7 @@ extern const get_blender : (op: int #, source: int #, dest: int # -> void)
 extern const get_blend_color : ( -> COLOR)
 extern const set_separate_blender : (op: int, source: int, dest: int, alpha_op: int, alpha_source: int, alpha_dest: int -> void)
 extern const get_separate_blender : (op: int #, source: int #, dest: int #, alpha_op: int #, alpha_src: int #, alpha_dest: int # -> void)
-type EVENT_TYPE = unsigned int;;
+type EVENT_TYPE = unsigned int
 const EVENT_JOYSTICK_AXIS = 1
 const EVENT_JOYSTICK_BUTTON_DOWN = 2
 const EVENT_JOYSTICK_BUTTON_UP = 3
@@ -553,7 +553,7 @@ extern const clear_depth_buffer : (x: float -> void)
 extern const draw_pixel : (x: float, y: float, color: COLOR -> void)
 extern const get_errno : ( -> int)
 extern const set_errno : (errnum: int -> void)
-type fixed = int32_t;;
+type fixed = int32_t
 var fixtorad_r :  al_fixed
 var radtofix_r :  al_fixed
 extern const fixsqrt : (x: fixed -> fixed)

@@ -78,7 +78,7 @@ def myr_typedef(node):
     typ = node.underlying_typedef_type
     if typ.get_pointee().get_result().kind != cindex.TypeKind.INVALID:
         return myr_typedef_func(node)
-    return 'type {} = {};;'.format(nameof(node), myr_type(typ))
+    return 'type {} = {}'.format(nameof(node), myr_type(typ))
 
 def myr_var(node):
     return 'var {} : {}'.format(nameof(node), myr_type(node.type))
