@@ -309,7 +309,7 @@ extern const get_blender : (op: int #, source: int #, dest: int # -> void)
 extern const get_blend_color : ( -> COLOR)
 extern const set_separate_blender : (op: int, source: int, dest: int, alpha_op: int, alpha_source: int, alpha_dest: int -> void)
 extern const get_separate_blender : (op: int #, source: int #, dest: int #, alpha_op: int #, alpha_src: int #, alpha_dest: int # -> void)
-type EVENT_TYPE = unsigned int
+type EVENT_TYPE = uint
 const EVENT_JOYSTICK_AXIS = 1
 const EVENT_JOYSTICK_BUTTON_DOWN = 2
 const EVENT_JOYSTICK_BUTTON_UP = 3
@@ -809,8 +809,8 @@ type MOUSE_STATE = struct
 extern const is_mouse_installed : ( -> int)
 extern const install_mouse : ( -> int)
 extern const uninstall_mouse : ( -> void)
-extern const get_mouse_num_buttons : ( -> unsigned int)
-extern const get_mouse_num_axes : ( -> unsigned int)
+extern const get_mouse_num_buttons : ( -> uint)
+extern const get_mouse_num_axes : ( -> uint)
 extern const set_mouse_xy : (display: struct ALLEGRO_DISPLAY #, x: int, y: int -> int)
 extern const set_mouse_z : (z: int -> int)
 extern const set_mouse_w : (w: int -> int)
