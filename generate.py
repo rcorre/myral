@@ -65,9 +65,20 @@ def myr_union(node):
 def myr_struct(node):
     return 'type {} = struct\n;;'.format(nameof(node))
 
+def myr_typedef_func(node):
+    ret = myr_type(node.underlying_typedef_type.get_pointee().get_result())
+    if not ret:
+        ret = myr_type(node.underlying_typedef_type.get_result())
+    args = ', '.join(myr_arg(a, i)
+                     for i, a in enumerate(node.get_children())
+                     if a.kind == cindex.CursorKind.PARM_DECL)
+    return 'type {} = ({} -> {})'.format(nameof(node), args, ret)
+
 def myr_typedef(node):
     typ = node.underlying_typedef_type
-    return 'type {} = {};;'.format(nameof(node), nameof(typ))
+    if typ.get_pointee().get_result().kind != cindex.TypeKind.INVALID:
+        return myr_typedef_func(node)
+    return 'type {} = {};;'.format(nameof(node), myr_type(typ))
 
 def myr_var(node):
     return 'var {} : {}'.format(nameof(node), myr_type(node.type))

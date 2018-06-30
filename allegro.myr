@@ -255,11 +255,11 @@ extern const get_file_userdata : (f: FILE # -> void #)
 const KEEP_BITMAP_FORMAT = 2
 const NO_PREMULTIPLIED_ALPHA = 512
 const KEEP_INDEX = 2048
-type IIO_LOADER_FUNCTION = BITMAP *(*)(const char *, int);;
-type IIO_FS_LOADER_FUNCTION = BITMAP *(*)(ALLEGRO_FILE *, int);;
+type IIO_LOADER_FUNCTION = (filename:  char #, flags: int -> BITMAP #)
+type IIO_FS_LOADER_FUNCTION = (fp: FILE #, flags: int -> BITMAP #)
 type bool = int (int *);;
-type IIO_FS_SAVER_FUNCTION = int (*)(ALLEGRO_FILE *, ALLEGRO_BITMAP *);;
-type IIO_IDENTIFIER_FUNCTION = int (*)(ALLEGRO_FILE *);;
+type IIO_FS_SAVER_FUNCTION = ( -> int)
+type IIO_IDENTIFIER_FUNCTION = ( -> int)
 extern const register_bitmap_loader : (ext:  char #, loader: IIO_LOADER_FUNCTION -> int)
 extern const register_bitmap_saver : (ext:  char #, saver: int -> int)
 extern const register_bitmap_loader_f : (ext:  char #, fs_loader: IIO_FS_LOADER_FUNCTION -> int)
