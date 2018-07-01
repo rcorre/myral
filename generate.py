@@ -122,7 +122,8 @@ def myr_code(node):
         enums.add(name)
         return myr_enum(node)
     elif kind == cindex.CursorKind.UNION_DECL:
-        return myr_union(node)
+        if any(node.get_children()):
+            return myr_union(node)
     elif kind == cindex.CursorKind.TYPEDEF_DECL:
         if name in enums:
             return
