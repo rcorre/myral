@@ -118,22 +118,21 @@ def glue_func(node):
                       '}'])
 
 def myr_code(node):
-    name = node.spelling
+    name = nameof(node)
     kind = node.kind
     if kind == cindex.CursorKind.FUNCTION_DECL:
         return myr_func(node)
     elif kind == cindex.CursorKind.ENUM_DECL:
         enums.add(name)
         return myr_enum(node)
-    elif kind == cindex.CursorKind.UNION_DECL:
-        if any(node.get_children()):
-            return myr_union(node)
     elif kind == cindex.CursorKind.TYPEDEF_DECL:
         if name in enums:
             return
-        typ = node.underlying_typedef_type
-        if typ.kind == cindex.TypeKind.ELABORATED:
-            return myr_struct(node)
+        decl = node.underlying_typedef_type.get_declaration()
+        if decl.kind == cindex.CursorKind.STRUCT_DECL:
+            return 'type {} = struct\n;;'.format(name)
+        if decl.kind == cindex.CursorKind.UNION_DECL:
+            return myr_union(decl)
         return myr_typedef(node)
     elif kind == cindex.CursorKind.STRUCT_DECL:
         # only include typedef'd structs for now...

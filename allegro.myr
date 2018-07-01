@@ -358,8 +358,6 @@ type TOUCH_EVENT = struct
 ;;
 type USER_EVENT = struct
 ;;
-type EVENT = struct
-;;
 type EVENT = union
 	`type_ EVENT_TYPE
 	`any ANY_EVENT
