@@ -68,8 +68,10 @@ def myr_union(node):
                        for c in node.get_children())
     return 'type {} = union\n{}\n;;'.format(nameof(node), fields)
 
-def myr_struct(node):
-    return 'type {} = struct\n;;'.format(nameof(node))
+def myr_struct_fields(node):
+    return '\n'.join(
+        '\t{}: {}'.format(nameof(c), myr_type(c.type))
+        for c in node.get_children())
 
 def myr_typedef_func(node):
     ret = myr_type(node.underlying_typedef_type.get_pointee().get_result())
@@ -130,7 +132,8 @@ def myr_code(node):
             return
         decl = node.underlying_typedef_type.get_declaration()
         if decl.kind == cindex.CursorKind.STRUCT_DECL:
-            return 'type {} = struct\n;;'.format(name)
+            fields = myr_struct_fields(decl)
+            return 'type {} = struct\n{}\n;;'.format(name, fields)
         if decl.kind == cindex.CursorKind.UNION_DECL:
             return myr_union(decl)
         return myr_typedef(node)

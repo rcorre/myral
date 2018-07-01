@@ -1,11 +1,17 @@
 extern const get_allegro_version : ( -> uint32_t)
 extern const run_main : (argc: int, argv: char # #, arg2: (arg0: int, arg1: char # # -> int) -> int)
 type TIMEOUT = struct
+	__pad1__: uint64_t
+	__pad2__: uint64_t
 ;;
 extern const get_time : ( -> double)
 extern const rest : (seconds: double -> void)
 extern const init_timeout : (timeout: TIMEOUT #, seconds: double -> void)
 type COLOR = struct
+	r: float
+	g: float
+	b: float
+	a: float
 ;;
 type PIXEL_FORMAT = union
 	`PIXEL_FORMAT_ANY
@@ -57,6 +63,7 @@ extern const get_pixel_block_size : (format: int -> int)
 extern const get_pixel_block_width : (format: int -> int)
 extern const get_pixel_block_height : (format: int -> int)
 type BITMAP = struct
+
 ;;
 const MEMORY_BITMAP = 1
 const _KEEP_BITMAP_FORMAT = 2
@@ -111,8 +118,14 @@ extern const draw_tinted_rotated_bitmap : (bitmap: BITMAP #, tint: COLOR, cx: fl
 extern const draw_tinted_scaled_rotated_bitmap : (bitmap: BITMAP #, tint: COLOR, cx: float, cy: float, dx: float, dy: float, xscale: float, yscale: float, angle: float, flags: int -> void)
 extern const draw_tinted_scaled_rotated_bitmap_region : (bitmap: BITMAP #, sx: float, sy: float, sw: float, sh: float, tint: COLOR, cx: float, cy: float, dx: float, dy: float, xscale: float, yscale: float, angle: float, flags: int -> void)
 type USTR = struct
+	mlen: int
+	slen: int
+	data: byte #
 ;;
 type USTR_INFO = struct
+	mlen: int
+	slen: int
+	data: byte #
 ;;
 extern const ustr_new : (s: char # -> USTR #)
 extern const ustr_new_from_buffer : (s: char #, size: int -> USTR #)
@@ -181,6 +194,7 @@ extern const ustr_encode_utf16 : (us: ALLEGRO_USTR #, s: uint16_t #, n: int -> i
 extern const utf16_width : (c: int -> int)
 extern const utf16_encode : (s: uint16_t[:], c: int32_t -> int)
 type PATH = struct
+
 ;;
 extern const create_path : (str: char # -> PATH #)
 extern const create_path_for_directory : (str: char # -> PATH #)
@@ -207,8 +221,18 @@ extern const set_path_extension : (path: PATH #, extension: char # -> int)
 extern const get_path_basename : (path: ALLEGRO_PATH # -> char #)
 extern const make_path_canonical : (path: PATH # -> int)
 type FILE = struct
+
 ;;
 type FILE_INTERFACE = struct
+	fi_fopen: void *(char *, char *) #
+	bool: int ((int *))(ALLEGRO_FILE *)
+	size_t: int ((int *))(ALLEGRO_FILE *, void *, int)
+	fi_ftell: int64_t (ALLEGRO_FILE *) #
+	fi_ferror: int (ALLEGRO_FILE *) #
+	fi_ferrmsg: char *(ALLEGRO_FILE *) #
+	fi_fclearerr: void (ALLEGRO_FILE *) #
+	fi_fungetc: int (ALLEGRO_FILE *, int) #
+	fi_fsize: off_t (ALLEGRO_FILE *) #
 ;;
 type SEEK = union
 	`SEEK_SET
@@ -277,6 +301,10 @@ const LOCK_READWRITE = 0
 const LOCK_READONLY = 1
 const LOCK_WRITEONLY = 2
 type LOCKED_REGION = struct
+	data: void #
+	format: int
+	pitch: int
+	pixel_size: int
 ;;
 extern const lock_bitmap : (bitmap: BITMAP #, format: int, flags: int -> LOCKED_REGION #)
 extern const lock_bitmap_region : (bitmap: BITMAP #, x: int, y: int, width: int, height: int, format: int, flags: int -> LOCKED_REGION #)
@@ -341,22 +369,94 @@ const EVENT_TOUCH_CANCEL = 53
 const EVENT_DISPLAY_CONNECTED = 60
 const EVENT_DISPLAY_DISCONNECTED = 61
 type EVENT_SOURCE = struct
+	__pad: int [32]
 ;;
 type ANY_EVENT = struct
+	type_: EVENT_TYPE
+	source: EVENT_SOURCE #
+	timestamp: double
 ;;
 type DISPLAY_EVENT = struct
+	type_: EVENT_TYPE
+	DISPLAY: ALLEGRO_DISPLAY
+	source: ALLEGRO_DISPLAY #
+	timestamp: double
+	x: int
+	y: int
+	width: int
+	height: int
+	orientation: int
 ;;
 type JOYSTICK_EVENT = struct
+	type_: EVENT_TYPE
+	JOYSTICK: ALLEGRO_JOYSTICK
+	source: ALLEGRO_JOYSTICK #
+	timestamp: double
+	id: ALLEGRO_JOYSTICK #
+	stick: int
+	axis: int
+	pos: float
+	button: int
 ;;
 type KEYBOARD_EVENT = struct
+	type_: EVENT_TYPE
+	KEYBOARD: ALLEGRO_KEYBOARD
+	source: ALLEGRO_KEYBOARD #
+	timestamp: double
+	display: ALLEGRO_DISPLAY #
+	keycode: int
+	unichar: int
+	modifiers: uint
+	repeat: bool
 ;;
 type MOUSE_EVENT = struct
+	type_: EVENT_TYPE
+	MOUSE: ALLEGRO_MOUSE
+	source: ALLEGRO_MOUSE #
+	timestamp: double
+	display: ALLEGRO_DISPLAY #
+	x: int
+	y: int
+	z: int
+	w: int
+	dx: int
+	dy: int
+	dz: int
+	dw: int
+	button: uint
+	pressure: float
 ;;
 type TIMER_EVENT = struct
+	type_: EVENT_TYPE
+	TIMER: ALLEGRO_TIMER
+	source: ALLEGRO_TIMER #
+	timestamp: double
+	count: int64_t
+	error: double
 ;;
 type TOUCH_EVENT = struct
+	type_: EVENT_TYPE
+	TOUCH_INPUT: ALLEGRO_TOUCH_INPUT
+	source: ALLEGRO_TOUCH_INPUT #
+	timestamp: double
+	display: ALLEGRO_DISPLAY #
+	id: int
+	x: float
+	y: float
+	dx: float
+	dy: float
+	primary: bool
 ;;
 type USER_EVENT = struct
+	type_: EVENT_TYPE
+	source: ALLEGRO_EVENT_SOURCE #
+	timestamp: double
+	USER_EVENT_DESCRIPTOR: ALLEGRO_USER_EVENT_DESCRIPTOR
+	__internal__descr: ALLEGRO_USER_EVENT_DESCRIPTOR #
+	data1: intptr_t
+	data2: intptr_t
+	data3: intptr_t
+	data4: intptr_t
 ;;
 type EVENT = union
 	`type_ EVENT_TYPE
@@ -376,6 +476,7 @@ extern const unref_user_event : (arg0: USER_EVENT # -> void)
 extern const set_event_source_data : (arg0: EVENT_SOURCE #, data: intptr_t -> void)
 extern const get_event_source_data : (arg0: ALLEGRO_EVENT_SOURCE # -> intptr_t)
 type EVENT_QUEUE = struct
+
 ;;
 extern const create_event_queue : ( -> EVENT_QUEUE #)
 extern const destroy_event_queue : (arg0: EVENT_QUEUE # -> void)
@@ -463,6 +564,7 @@ type DISPLAY_ORIENTATION = union
 ;;
 const _PRIM_MAX_USER_ATTR = 10
 type DISPLAY = struct
+
 ;;
 extern const set_new_display_refresh_rate : (refresh_rate: int -> void)
 extern const set_new_display_flags : (flags: int -> void)
@@ -516,10 +618,13 @@ extern const get_clipboard_text : (display: DISPLAY # -> char #)
 extern const set_clipboard_text : (display: DISPLAY #, text: char # -> int)
 extern const clipboard_has_text : (display: DISPLAY # -> int)
 type CONFIG = struct
+
 ;;
 type CONFIG_SECTION = struct
+
 ;;
 type CONFIG_ENTRY = struct
+
 ;;
 extern const create_config : ( -> CONFIG #)
 extern const add_config_section : (config: CONFIG #, name: char # -> void)
@@ -556,6 +661,8 @@ extern const fixhypot : (x: fixed, y: fixed -> fixed)
 extern const fixatan : (x: fixed -> fixed)
 extern const fixatan2 : (y: fixed, x: fixed -> fixed)
 type FS_ENTRY = struct
+	FS_INTERFACE: ALLEGRO_FS_INTERFACE
+	vtable: ALLEGRO_FS_INTERFACE #
 ;;
 type FILE_MODE = union
 	`FILEMODE_READ
@@ -566,6 +673,26 @@ type FILE_MODE = union
 	`FILEMODE_ISDIR
 ;;
 type FS_INTERFACE = struct
+	fs_create_entry: FS_ENTRY *(char *) #
+	fs_destroy_entry: void (ALLEGRO_FS_ENTRY *) #
+	fs_entry_name: char *(ALLEGRO_FS_ENTRY *) #
+	fs_update_entry: int (ALLEGRO_FS_ENTRY *) #
+	fs_entry_mode: uint32_t (ALLEGRO_FS_ENTRY *) #
+	fs_entry_atime: time_t (ALLEGRO_FS_ENTRY *) #
+	fs_entry_mtime: time_t (ALLEGRO_FS_ENTRY *) #
+	fs_entry_ctime: time_t (ALLEGRO_FS_ENTRY *) #
+	fs_entry_size: off_t (ALLEGRO_FS_ENTRY *) #
+	fs_entry_exists: int (ALLEGRO_FS_ENTRY *) #
+	fs_remove_entry: int (ALLEGRO_FS_ENTRY *) #
+	fs_open_directory: int (ALLEGRO_FS_ENTRY *) #
+	fs_read_directory: FS_ENTRY *(ALLEGRO_FS_ENTRY *) #
+	fs_close_directory: int (ALLEGRO_FS_ENTRY *) #
+	fs_filename_exists: int (char *) #
+	fs_remove_filename: int (char *) #
+	fs_get_current_directory: char *(void) #
+	fs_change_directory: int (char *) #
+	fs_make_directory: int (char *) #
+	fs_open_file: FILE *(ALLEGRO_FS_ENTRY *, char *) #
 ;;
 extern const create_fs_entry : (path: char # -> FS_ENTRY #)
 extern const destroy_fs_entry : (e: FS_ENTRY # -> void)
@@ -598,12 +725,20 @@ extern const get_fs_interface : ( -> ALLEGRO_FS_INTERFACE #)
 extern const set_fs_interface : (vtable: ALLEGRO_FS_INTERFACE # -> void)
 extern const set_standard_fs_interface : ( -> void)
 type DISPLAY_MODE = struct
+	width: int
+	height: int
+	format: int
+	refresh_rate: int
 ;;
 extern const get_num_display_modes : ( -> int)
 extern const get_display_mode : (index: int, mode: DISPLAY_MODE # -> DISPLAY_MODE #)
 type JOYSTICK = struct
+
 ;;
 type JOYSTICK_STATE = struct
+	: ALLEGRO_JOYSTICK_STATE::(anonymous at /usr/include/allegro5/joystick.h:45:4)
+	stick: (anonymous at /usr/include/allegro5/joystick.h:45:4) [16]
+	button: int [32]
 ;;
 type JOYFLAGS = union
 	`JOYFLAG_DIGITAL
@@ -786,8 +921,11 @@ const KEYMOD_ACCENT2 = 8192
 const KEYMOD_ACCENT3 = 16384
 const KEYMOD_ACCENT4 = 32768
 type KEYBOARD = struct
+
 ;;
 type KEYBOARD_STATE = struct
+	display: ALLEGRO_DISPLAY #
+	__key_down__internal__: unsigned int [8]
 ;;
 extern const is_keyboard_installed : ( -> int)
 extern const install_keyboard : ( -> int)
@@ -798,8 +936,17 @@ extern const get_keyboard_state : (ret_state: KEYBOARD_STATE # -> void)
 extern const key_down : (arg0: ALLEGRO_KEYBOARD_STATE #, keycode: int -> int)
 extern const get_keyboard_event_source : ( -> EVENT_SOURCE #)
 type MOUSE = struct
+
 ;;
 type MOUSE_STATE = struct
+	x: int
+	y: int
+	z: int
+	w: int
+	more_axes: int [4]
+	buttons: int
+	pressure: float
+	display: ALLEGRO_DISPLAY #
 ;;
 extern const is_mouse_installed : ( -> int)
 extern const install_mouse : ( -> int)
@@ -820,10 +967,19 @@ extern const set_mouse_wheel_precision : (precision: int -> void)
 extern const get_mouse_wheel_precision : ( -> int)
 extern const get_mouse_event_source : ( -> EVENT_SOURCE #)
 type TOUCH_INPUT = struct
+
 ;;
 type TOUCH_INPUT_STATE = struct
+	touches: TOUCH_STATE [16]
 ;;
 type TOUCH_STATE = struct
+	id: int
+	x: float
+	y: float
+	dx: float
+	dy: float
+	primary: bool
+	display: ALLEGRO_DISPLAY #
 ;;
 extern const is_touch_input_installed : ( -> int)
 extern const install_touch_input : ( -> int)
@@ -831,6 +987,10 @@ extern const uninstall_touch_input : ( -> void)
 extern const get_touch_input_state : (ret_state: TOUCH_INPUT_STATE # -> void)
 extern const get_touch_input_event_source : ( -> EVENT_SOURCE #)
 type MEMORY_INTERFACE = struct
+	mi_malloc: void *(int, int, char *, char *) #
+	mi_free: void (void *, int, char *, char *) #
+	mi_realloc: void *(void *, int, int, char *, char *) #
+	mi_calloc: void *(int, int, int, char *, char *) #
 ;;
 extern const set_memory_interface : (iface: MEMORY_INTERFACE # -> void)
 extern const malloc_with_context : (n: int, line: int, file: char #, func: char # -> void #)
@@ -838,11 +998,16 @@ extern const free_with_context : (ptr: void #, line: int, file: char #, func: ch
 extern const realloc_with_context : (ptr: void #, n: int, line: int, file: char #, func: char # -> void #)
 extern const calloc_with_context : (count: int, n: int, line: int, file: char #, func: char # -> void #)
 type MONITOR_INFO = struct
+	x1: int
+	y1: int
+	x2: int
+	y2: int
 ;;
 const DEFAULT_DISPLAY_ADAPTER = -1
 extern const get_num_video_adapters : ( -> int)
 extern const get_monitor_info : (adapter: int, info: MONITOR_INFO # -> int)
 type MOUSE_CURSOR = struct
+
 ;;
 type SYSTEM_MOUSE_CURSOR = union
 	`SYSTEM_MOUSE_CURSOR_NONE
@@ -902,6 +1067,7 @@ type WRITE_MASK_FLAGS = union
 ;;
 extern const set_render_state : (state: RENDER_STATE, value: int -> void)
 type TRANSFORM = struct
+	m: float [4][4]
 ;;
 extern const use_transform : (trans: ALLEGRO_TRANSFORM # -> void)
 extern const use_projection_transform : (trans: ALLEGRO_TRANSFORM # -> void)
@@ -930,6 +1096,7 @@ extern const perspective_transform : (trans: TRANSFORM #, left: float, top: floa
 extern const horizontal_shear_transform : (trans: TRANSFORM #, theta: float -> void)
 extern const vertical_shear_transform : (trans: TRANSFORM #, theta: float -> void)
 type SHADER = struct
+
 ;;
 type SHADER_TYPE = union
 	`VERTEX_SHADER
@@ -957,6 +1124,7 @@ extern const set_shader_float_vector : (name: char #, num_components: int, f: fl
 extern const set_shader_bool : (name: char #, b: bool -> int)
 extern const get_default_shader_source : (platform: SHADER_PLATFORM, type_: SHADER_TYPE -> char #)
 type SYSTEM = struct
+
 ;;
 extern const install_system : (version: int, atexit_ptr: (arg0: ( -> void) -> int) -> int)
 extern const uninstall_system : ( -> void)
@@ -979,10 +1147,13 @@ extern const get_org_name : ( -> char #)
 extern const get_app_name : ( -> char #)
 extern const inhibit_screensaver : (inhibit: bool -> int)
 type THREAD = struct
+
 ;;
 type MUTEX = struct
+
 ;;
 type COND = struct
+
 ;;
 extern const create_thread : (proc: (thread: THREAD #, arg: void # -> void #), arg: void # -> THREAD #)
 extern const start_thread : (outer: THREAD # -> void)
@@ -1003,6 +1174,7 @@ extern const wait_cond_until : (cond: COND #, mutex: MUTEX #, timeout: ALLEGRO_T
 extern const broadcast_cond : (cond: COND # -> void)
 extern const signal_cond : (cond: COND # -> void)
 type TIMER = struct
+
 ;;
 extern const create_timer : (speed_secs: double -> TIMER #)
 extern const destroy_timer : (timer: TIMER # -> void)
@@ -1029,6 +1201,7 @@ type STATE_FLAGS = union
 	`STATE_ALL
 ;;
 type STATE = struct
+	_tls: char [1024]
 ;;
 extern const store_state : (state: STATE #, flags: int -> void)
 extern const restore_state : (state: ALLEGRO_STATE # -> void)
