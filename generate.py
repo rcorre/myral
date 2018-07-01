@@ -24,7 +24,7 @@ def myr_type(node):
     if node.kind == cindex.TypeKind.INCOMPLETEARRAY:
         return myr_type(node.element_type) + '[:]'
 
-    return nameof(node).replace('const', '')
+    return nameof(node).replace('const', '').replace('struct ', '')
 
 def nameof(node):
     name = node.spelling

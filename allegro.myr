@@ -811,7 +811,7 @@ extern const install_mouse : ( -> int)
 extern const uninstall_mouse : ( -> void)
 extern const get_mouse_num_buttons : ( -> uint)
 extern const get_mouse_num_axes : ( -> uint)
-extern const set_mouse_xy : (display: struct ALLEGRO_DISPLAY #, x: int, y: int -> int)
+extern const set_mouse_xy : (display: ALLEGRO_DISPLAY #, x: int, y: int -> int)
 extern const set_mouse_z : (z: int -> int)
 extern const set_mouse_w : (w: int -> int)
 extern const set_mouse_axis : (axis: int, value: int -> int)
@@ -819,7 +819,7 @@ extern const get_mouse_state : (ret_state: MOUSE_STATE # -> void)
 extern const mouse_button_down : (state:  ALLEGRO_MOUSE_STATE #, button: int -> int)
 extern const get_mouse_state_axis : (state:  ALLEGRO_MOUSE_STATE #, axis: int -> int)
 extern const get_mouse_cursor_position : (ret_x: int #, ret_y: int # -> int)
-extern const grab_mouse : (display: struct ALLEGRO_DISPLAY # -> int)
+extern const grab_mouse : (display: ALLEGRO_DISPLAY # -> int)
 extern const ungrab_mouse : ( -> int)
 extern const set_mouse_wheel_precision : (precision: int -> void)
 extern const get_mouse_wheel_precision : ( -> int)
@@ -872,12 +872,12 @@ type SYSTEM_MOUSE_CURSOR = union
 	`SYSTEM_MOUSE_CURSOR_UNAVAILABLE
 	`NUM_SYSTEM_MOUSE_CURSORS
 ;;
-extern const create_mouse_cursor : (sprite: struct ALLEGRO_BITMAP #, xfocus: int, yfocus: int -> MOUSE_CURSOR #)
+extern const create_mouse_cursor : (sprite: ALLEGRO_BITMAP #, xfocus: int, yfocus: int -> MOUSE_CURSOR #)
 extern const destroy_mouse_cursor : (arg0: MOUSE_CURSOR # -> void)
-extern const set_mouse_cursor : (display: struct ALLEGRO_DISPLAY #, cursor: MOUSE_CURSOR # -> int)
-extern const set_system_mouse_cursor : (display: struct ALLEGRO_DISPLAY #, cursor_id: SYSTEM_MOUSE_CURSOR -> int)
-extern const show_mouse_cursor : (display: struct ALLEGRO_DISPLAY # -> int)
-extern const hide_mouse_cursor : (display: struct ALLEGRO_DISPLAY # -> int)
+extern const set_mouse_cursor : (display: ALLEGRO_DISPLAY #, cursor: MOUSE_CURSOR # -> int)
+extern const set_system_mouse_cursor : (display: ALLEGRO_DISPLAY #, cursor_id: SYSTEM_MOUSE_CURSOR -> int)
+extern const show_mouse_cursor : (display: ALLEGRO_DISPLAY # -> int)
+extern const hide_mouse_cursor : (display: ALLEGRO_DISPLAY # -> int)
 type RENDER_STATE = union
 	`ALPHA_TEST
 	`WRITE_MASK
