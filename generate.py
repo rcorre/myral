@@ -29,6 +29,10 @@ def myr_type(node):
 def nameof(node):
     name = node.spelling
 
+    if name == 'type':
+        # reserved myr keyword
+        return 'type_'
+
     for prefix in STRIP_PREFIX:
         if name.startswith(prefix):
             name = name[len(prefix):]
@@ -36,7 +40,7 @@ def nameof(node):
 
 # TODO: you can reuse arg names?
 def myr_arg(a, i):
-    name = a.spelling or 'arg{}'.format(i)
+    name = nameof(a) or 'arg{}'.format(i)
 
     result = a.type.get_pointee().get_result()
     if result.spelling:

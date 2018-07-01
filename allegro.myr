@@ -361,7 +361,7 @@ type USER_EVENT = struct
 type EVENT = struct
 ;;
 type EVENT = union
-	`type EVENT_TYPE
+	`type_ EVENT_TYPE
 	`any ANY_EVENT
 	`display DISPLAY_EVENT
 	`joystick JOYSTICK_EVENT
@@ -943,8 +943,8 @@ type SHADER_PLATFORM = union
 	`SHADER_HLSL
 ;;
 extern const create_shader : (platform: SHADER_PLATFORM -> SHADER #)
-extern const attach_shader_source : (shader: SHADER #, type: SHADER_TYPE, source: char # -> int)
-extern const attach_shader_source_file : (shader: SHADER #, type: SHADER_TYPE, filename: char # -> int)
+extern const attach_shader_source : (shader: SHADER #, type_: SHADER_TYPE, source: char # -> int)
+extern const attach_shader_source_file : (shader: SHADER #, type_: SHADER_TYPE, filename: char # -> int)
 extern const build_shader : (shader: SHADER # -> int)
 extern const get_shader_log : (shader: SHADER # -> char #)
 extern const get_shader_platform : (shader: SHADER # -> SHADER_PLATFORM)
@@ -957,7 +957,7 @@ extern const set_shader_float : (name: char #, f: float -> int)
 extern const set_shader_int_vector : (name: char #, num_components: int, i: int #, num_elems: int -> int)
 extern const set_shader_float_vector : (name: char #, num_components: int, f: float #, num_elems: int -> int)
 extern const set_shader_bool : (name: char #, b: bool -> int)
-extern const get_default_shader_source : (platform: SHADER_PLATFORM, type: SHADER_TYPE -> char #)
+extern const get_default_shader_source : (platform: SHADER_PLATFORM, type_: SHADER_TYPE -> char #)
 type SYSTEM = struct
 ;;
 extern const install_system : (version: int, atexit_ptr: (arg0: ( -> void) -> int) -> int)
