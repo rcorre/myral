@@ -1,17 +1,20 @@
-extern const get_allegro_version : ( -> uint32_t)
+type size_t = uint64
+type off_t = uint64
+type time_t = int64
+extern const get_allegro_version : ( -> uint32)
 extern const run_main : (argc: int, argv: char # #, arg2: (arg0: int, arg1: char # # -> int) -> int)
 type TIMEOUT = struct
-	__pad1__: uint64_t
-	__pad2__: uint64_t
+	__pad1__: uint64
+	__pad2__: uint64
 ;;
-extern const get_time : ( -> double)
-extern const rest : (seconds: double -> void)
-extern const init_timeout : (timeout: TIMEOUT #, seconds: double -> void)
+extern const get_time : ( -> flt64)
+extern const rest : (seconds: flt64 -> void)
+extern const init_timeout : (timeout: TIMEOUT #, seconds: flt64 -> void)
 type COLOR = struct
-	r: float
-	g: float
-	b: float
-	a: float
+	r: flt32
+	g: flt32
+	b: flt32
+	a: flt32
 ;;
 type PIXEL_FORMAT = union
 	`PIXEL_FORMAT_ANY
@@ -49,14 +52,14 @@ type PIXEL_FORMAT = union
 ;;
 extern const map_rgb : (r: byte, g: byte, b: byte -> COLOR)
 extern const map_rgba : (r: byte, g: byte, b: byte, a: byte -> COLOR)
-extern const map_rgb_f : (r: float, g: float, b: float -> COLOR)
-extern const map_rgba_f : (r: float, g: float, b: float, a: float -> COLOR)
+extern const map_rgb_f : (r: flt32, g: flt32, b: flt32 -> COLOR)
+extern const map_rgba_f : (r: flt32, g: flt32, b: flt32, a: flt32 -> COLOR)
 extern const premul_rgba : (r: byte, g: byte, b: byte, a: byte -> COLOR)
-extern const premul_rgba_f : (r: float, g: float, b: float, a: float -> COLOR)
+extern const premul_rgba_f : (r: flt32, g: flt32, b: flt32, a: flt32 -> COLOR)
 extern const unmap_rgb : (color: COLOR, r: byte #, g: byte #, b: byte # -> void)
 extern const unmap_rgba : (color: COLOR, r: byte #, g: byte #, b: byte #, a: byte # -> void)
-extern const unmap_rgb_f : (color: COLOR, r: float #, g: float #, b: float # -> void)
-extern const unmap_rgba_f : (color: COLOR, r: float #, g: float #, b: float #, a: float # -> void)
+extern const unmap_rgb_f : (color: COLOR, r: flt32 #, g: flt32 #, b: flt32 # -> void)
+extern const unmap_rgba_f : (color: COLOR, r: flt32 #, g: flt32 #, b: flt32 #, a: flt32 # -> void)
 extern const get_pixel_size : (format: int -> int)
 extern const get_pixel_format_bits : (format: int -> int)
 extern const get_pixel_block_size : (format: int -> int)
@@ -106,17 +109,17 @@ extern const convert_bitmap : (bitmap: BITMAP # -> void)
 extern const convert_memory_bitmaps : ( -> void)
 const FLIP_HORIZONTAL = 1
 const FLIP_VERTICAL = 2
-extern const draw_bitmap : (bitmap: BITMAP #, dx: float, dy: float, flags: int -> void)
-extern const draw_bitmap_region : (bitmap: BITMAP #, sx: float, sy: float, sw: float, sh: float, dx: float, dy: float, flags: int -> void)
-extern const draw_scaled_bitmap : (bitmap: BITMAP #, sx: float, sy: float, sw: float, sh: float, dx: float, dy: float, dw: float, dh: float, flags: int -> void)
-extern const draw_rotated_bitmap : (bitmap: BITMAP #, cx: float, cy: float, dx: float, dy: float, angle: float, flags: int -> void)
-extern const draw_scaled_rotated_bitmap : (bitmap: BITMAP #, cx: float, cy: float, dx: float, dy: float, xscale: float, yscale: float, angle: float, flags: int -> void)
-extern const draw_tinted_bitmap : (bitmap: BITMAP #, tint: COLOR, dx: float, dy: float, flags: int -> void)
-extern const draw_tinted_bitmap_region : (bitmap: BITMAP #, tint: COLOR, sx: float, sy: float, sw: float, sh: float, dx: float, dy: float, flags: int -> void)
-extern const draw_tinted_scaled_bitmap : (bitmap: BITMAP #, tint: COLOR, sx: float, sy: float, sw: float, sh: float, dx: float, dy: float, dw: float, dh: float, flags: int -> void)
-extern const draw_tinted_rotated_bitmap : (bitmap: BITMAP #, tint: COLOR, cx: float, cy: float, dx: float, dy: float, angle: float, flags: int -> void)
-extern const draw_tinted_scaled_rotated_bitmap : (bitmap: BITMAP #, tint: COLOR, cx: float, cy: float, dx: float, dy: float, xscale: float, yscale: float, angle: float, flags: int -> void)
-extern const draw_tinted_scaled_rotated_bitmap_region : (bitmap: BITMAP #, sx: float, sy: float, sw: float, sh: float, tint: COLOR, cx: float, cy: float, dx: float, dy: float, xscale: float, yscale: float, angle: float, flags: int -> void)
+extern const draw_bitmap : (bitmap: BITMAP #, dx: flt32, dy: flt32, flags: int -> void)
+extern const draw_bitmap_region : (bitmap: BITMAP #, sx: flt32, sy: flt32, sw: flt32, sh: flt32, dx: flt32, dy: flt32, flags: int -> void)
+extern const draw_scaled_bitmap : (bitmap: BITMAP #, sx: flt32, sy: flt32, sw: flt32, sh: flt32, dx: flt32, dy: flt32, dw: flt32, dh: flt32, flags: int -> void)
+extern const draw_rotated_bitmap : (bitmap: BITMAP #, cx: flt32, cy: flt32, dx: flt32, dy: flt32, angle: flt32, flags: int -> void)
+extern const draw_scaled_rotated_bitmap : (bitmap: BITMAP #, cx: flt32, cy: flt32, dx: flt32, dy: flt32, xscale: flt32, yscale: flt32, angle: flt32, flags: int -> void)
+extern const draw_tinted_bitmap : (bitmap: BITMAP #, tint: COLOR, dx: flt32, dy: flt32, flags: int -> void)
+extern const draw_tinted_bitmap_region : (bitmap: BITMAP #, tint: COLOR, sx: flt32, sy: flt32, sw: flt32, sh: flt32, dx: flt32, dy: flt32, flags: int -> void)
+extern const draw_tinted_scaled_bitmap : (bitmap: BITMAP #, tint: COLOR, sx: flt32, sy: flt32, sw: flt32, sh: flt32, dx: flt32, dy: flt32, dw: flt32, dh: flt32, flags: int -> void)
+extern const draw_tinted_rotated_bitmap : (bitmap: BITMAP #, tint: COLOR, cx: flt32, cy: flt32, dx: flt32, dy: flt32, angle: flt32, flags: int -> void)
+extern const draw_tinted_scaled_rotated_bitmap : (bitmap: BITMAP #, tint: COLOR, cx: flt32, cy: flt32, dx: flt32, dy: flt32, xscale: flt32, yscale: flt32, angle: flt32, flags: int -> void)
+extern const draw_tinted_scaled_rotated_bitmap_region : (bitmap: BITMAP #, sx: flt32, sy: flt32, sw: flt32, sh: flt32, tint: COLOR, cx: flt32, cy: flt32, dx: flt32, dy: flt32, xscale: flt32, yscale: flt32, angle: flt32, flags: int -> void)
 type USTR = struct
 	mlen: int
 	slen: int
@@ -131,29 +134,29 @@ extern const ustr_new : (s: char # -> USTR #)
 extern const ustr_new_from_buffer : (s: char #, size: int -> USTR #)
 extern const ustr_newf : (fmt: char # -> USTR #)
 extern const ustr_free : (us: USTR # -> void)
-extern const cstr : (us: ALLEGRO_USTR # -> char #)
-extern const ustr_to_buffer : (us: ALLEGRO_USTR #, buffer: char #, size: int -> void)
-extern const cstr_dup : (us: ALLEGRO_USTR # -> char #)
-extern const ustr_dup : (us: ALLEGRO_USTR # -> USTR #)
-extern const ustr_dup_substr : (us: ALLEGRO_USTR #, start_pos: int, end_pos: int -> USTR #)
-extern const ustr_empty_string : ( -> ALLEGRO_USTR #)
-extern const ref_cstr : (info: USTR_INFO #, s: char # -> ALLEGRO_USTR #)
-extern const ref_buffer : (info: USTR_INFO #, s: char #, size: int -> ALLEGRO_USTR #)
-extern const ref_ustr : (info: USTR_INFO #, us: ALLEGRO_USTR #, start_pos: int, end_pos: int -> ALLEGRO_USTR #)
-extern const ustr_size : (us: ALLEGRO_USTR # -> int)
-extern const ustr_length : (us: ALLEGRO_USTR # -> int)
-extern const ustr_offset : (us: ALLEGRO_USTR #, index: int -> int)
-extern const ustr_next : (us: ALLEGRO_USTR #, pos: int # -> int)
-extern const ustr_prev : (us: ALLEGRO_USTR #, pos: int # -> int)
-extern const ustr_get : (us: ALLEGRO_USTR #, pos: int -> int32_t)
-extern const ustr_get_next : (us: ALLEGRO_USTR #, pos: int # -> int32_t)
-extern const ustr_prev_get : (us: ALLEGRO_USTR #, pos: int # -> int32_t)
-extern const ustr_insert : (us1: USTR #, pos: int, us2: ALLEGRO_USTR # -> int)
+extern const cstr : (us: USTR # -> char #)
+extern const ustr_to_buffer : (us: USTR #, buffer: char #, size: int -> void)
+extern const cstr_dup : (us: USTR # -> char #)
+extern const ustr_dup : (us: USTR # -> USTR #)
+extern const ustr_dup_substr : (us: USTR #, start_pos: int, end_pos: int -> USTR #)
+extern const ustr_empty_string : ( -> USTR #)
+extern const ref_cstr : (info: USTR_INFO #, s: char # -> USTR #)
+extern const ref_buffer : (info: USTR_INFO #, s: char #, size: int -> USTR #)
+extern const ref_ustr : (info: USTR_INFO #, us: USTR #, start_pos: int, end_pos: int -> USTR #)
+extern const ustr_size : (us: USTR # -> int)
+extern const ustr_length : (us: USTR # -> int)
+extern const ustr_offset : (us: USTR #, index: int -> int)
+extern const ustr_next : (us: USTR #, pos: int # -> int)
+extern const ustr_prev : (us: USTR #, pos: int # -> int)
+extern const ustr_get : (us: USTR #, pos: int -> int32)
+extern const ustr_get_next : (us: USTR #, pos: int # -> int32)
+extern const ustr_prev_get : (us: USTR #, pos: int # -> int32)
+extern const ustr_insert : (us1: USTR #, pos: int, us2: USTR # -> int)
 extern const ustr_insert_cstr : (us: USTR #, pos: int, us2: char # -> int)
-extern const ustr_insert_chr : (us: USTR #, pos: int, c: int32_t -> int)
-extern const ustr_append : (us1: USTR #, us2: ALLEGRO_USTR # -> int)
+extern const ustr_insert_chr : (us: USTR #, pos: int, c: int32 -> int)
+extern const ustr_append : (us1: USTR #, us2: USTR # -> int)
 extern const ustr_append_cstr : (us: USTR #, s: char # -> int)
-extern const ustr_append_chr : (us: USTR #, c: int32_t -> int)
+extern const ustr_append_chr : (us: USTR #, c: int32 -> int)
 extern const ustr_appendf : (us: USTR #, fmt: char # -> int)
 extern const ustr_vappendf : (us: USTR #, fmt: char #, ap: int -> int)
 extern const ustr_remove_chr : (us: USTR #, pos: int -> int)
@@ -162,81 +165,81 @@ extern const ustr_truncate : (us: USTR #, start_pos: int -> int)
 extern const ustr_ltrim_ws : (us: USTR # -> int)
 extern const ustr_rtrim_ws : (us: USTR # -> int)
 extern const ustr_trim_ws : (us: USTR # -> int)
-extern const ustr_assign : (us1: USTR #, us2: ALLEGRO_USTR # -> int)
-extern const ustr_assign_substr : (us1: USTR #, us2: ALLEGRO_USTR #, start_pos: int, end_pos: int -> int)
+extern const ustr_assign : (us1: USTR #, us2: USTR # -> int)
+extern const ustr_assign_substr : (us1: USTR #, us2: USTR #, start_pos: int, end_pos: int -> int)
 extern const ustr_assign_cstr : (us1: USTR #, s: char # -> int)
-extern const ustr_set_chr : (us: USTR #, pos: int, c: int32_t -> int)
-extern const ustr_replace_range : (us1: USTR #, start_pos1: int, end_pos1: int, us2: ALLEGRO_USTR # -> int)
-extern const ustr_find_chr : (us: ALLEGRO_USTR #, start_pos: int, c: int32_t -> int)
-extern const ustr_rfind_chr : (us: ALLEGRO_USTR #, start_pos: int, c: int32_t -> int)
-extern const ustr_find_set : (us: ALLEGRO_USTR #, start_pos: int, accept: ALLEGRO_USTR # -> int)
-extern const ustr_find_set_cstr : (us: ALLEGRO_USTR #, start_pos: int, accept: char # -> int)
-extern const ustr_find_cset : (us: ALLEGRO_USTR #, start_pos: int, reject: ALLEGRO_USTR # -> int)
-extern const ustr_find_cset_cstr : (us: ALLEGRO_USTR #, start_pos: int, reject: char # -> int)
-extern const ustr_find_str : (haystack: ALLEGRO_USTR #, start_pos: int, needle: ALLEGRO_USTR # -> int)
-extern const ustr_find_cstr : (haystack: ALLEGRO_USTR #, start_pos: int, needle: char # -> int)
-extern const ustr_rfind_str : (haystack: ALLEGRO_USTR #, start_pos: int, needle: ALLEGRO_USTR # -> int)
-extern const ustr_rfind_cstr : (haystack: ALLEGRO_USTR #, start_pos: int, needle: char # -> int)
-extern const ustr_find_replace : (us: USTR #, start_pos: int, find: ALLEGRO_USTR #, replace: ALLEGRO_USTR # -> int)
+extern const ustr_set_chr : (us: USTR #, pos: int, c: int32 -> int)
+extern const ustr_replace_range : (us1: USTR #, start_pos1: int, end_pos1: int, us2: USTR # -> int)
+extern const ustr_find_chr : (us: USTR #, start_pos: int, c: int32 -> int)
+extern const ustr_rfind_chr : (us: USTR #, start_pos: int, c: int32 -> int)
+extern const ustr_find_set : (us: USTR #, start_pos: int, accept: USTR # -> int)
+extern const ustr_find_set_cstr : (us: USTR #, start_pos: int, accept: char # -> int)
+extern const ustr_find_cset : (us: USTR #, start_pos: int, reject: USTR # -> int)
+extern const ustr_find_cset_cstr : (us: USTR #, start_pos: int, reject: char # -> int)
+extern const ustr_find_str : (haystack: USTR #, start_pos: int, needle: USTR # -> int)
+extern const ustr_find_cstr : (haystack: USTR #, start_pos: int, needle: char # -> int)
+extern const ustr_rfind_str : (haystack: USTR #, start_pos: int, needle: USTR # -> int)
+extern const ustr_rfind_cstr : (haystack: USTR #, start_pos: int, needle: char # -> int)
+extern const ustr_find_replace : (us: USTR #, start_pos: int, find: USTR #, replace: USTR # -> int)
 extern const ustr_find_replace_cstr : (us: USTR #, start_pos: int, find: char #, replace: char # -> int)
-extern const ustr_equal : (us1: ALLEGRO_USTR #, us2: ALLEGRO_USTR # -> int)
-extern const ustr_compare : (u: ALLEGRO_USTR #, v: ALLEGRO_USTR # -> int)
-extern const ustr_ncompare : (us1: ALLEGRO_USTR #, us2: ALLEGRO_USTR #, n: int -> int)
-extern const ustr_has_prefix : (u: ALLEGRO_USTR #, v: ALLEGRO_USTR # -> int)
-extern const ustr_has_prefix_cstr : (u: ALLEGRO_USTR #, s: char # -> int)
-extern const ustr_has_suffix : (u: ALLEGRO_USTR #, v: ALLEGRO_USTR # -> int)
-extern const ustr_has_suffix_cstr : (us1: ALLEGRO_USTR #, s: char # -> int)
-extern const utf8_width : (c: int32_t -> int)
-extern const utf8_encode : (s: char[:], c: int32_t -> int)
-extern const ustr_new_from_utf16 : (s: uint16_t # -> USTR #)
-extern const ustr_size_utf16 : (us: ALLEGRO_USTR # -> int)
-extern const ustr_encode_utf16 : (us: ALLEGRO_USTR #, s: uint16_t #, n: int -> int)
+extern const ustr_equal : (us1: USTR #, us2: USTR # -> int)
+extern const ustr_compare : (u: USTR #, v: USTR # -> int)
+extern const ustr_ncompare : (us1: USTR #, us2: USTR #, n: int -> int)
+extern const ustr_has_prefix : (u: USTR #, v: USTR # -> int)
+extern const ustr_has_prefix_cstr : (u: USTR #, s: char # -> int)
+extern const ustr_has_suffix : (u: USTR #, v: USTR # -> int)
+extern const ustr_has_suffix_cstr : (us1: USTR #, s: char # -> int)
+extern const utf8_width : (c: int32 -> int)
+extern const utf8_encode : (s: char[:], c: int32 -> int)
+extern const ustr_new_from_utf16 : (s: uint16 # -> USTR #)
+extern const ustr_size_utf16 : (us: USTR # -> int)
+extern const ustr_encode_utf16 : (us: USTR #, s: uint16 #, n: int -> int)
 extern const utf16_width : (c: int -> int)
-extern const utf16_encode : (s: uint16_t[:], c: int32_t -> int)
+extern const utf16_encode : (s: uint16[:], c: int32 -> int)
 type PATH = struct
 
 ;;
 extern const create_path : (str: char # -> PATH #)
 extern const create_path_for_directory : (str: char # -> PATH #)
-extern const clone_path : (path: ALLEGRO_PATH # -> PATH #)
-extern const get_path_num_components : (path: ALLEGRO_PATH # -> int)
-extern const get_path_component : (path: ALLEGRO_PATH #, i: int -> char #)
+extern const clone_path : (path: PATH # -> PATH #)
+extern const get_path_num_components : (path: PATH # -> int)
+extern const get_path_component : (path: PATH #, i: int -> char #)
 extern const replace_path_component : (path: PATH #, i: int, s: char # -> void)
 extern const remove_path_component : (path: PATH #, i: int -> void)
 extern const insert_path_component : (path: PATH #, i: int, s: char # -> void)
-extern const get_path_tail : (path: ALLEGRO_PATH # -> char #)
+extern const get_path_tail : (path: PATH # -> char #)
 extern const drop_path_tail : (path: PATH # -> void)
 extern const append_path_component : (path: PATH #, s: char # -> void)
-extern const join_paths : (path: PATH #, tail: ALLEGRO_PATH # -> int)
-extern const rebase_path : (head: ALLEGRO_PATH #, tail: PATH # -> int)
-extern const path_cstr : (path: ALLEGRO_PATH #, delim: char -> char #)
-extern const path_ustr : (path: ALLEGRO_PATH #, delim: char -> ALLEGRO_USTR #)
+extern const join_paths : (path: PATH #, tail: PATH # -> int)
+extern const rebase_path : (head: PATH #, tail: PATH # -> int)
+extern const path_cstr : (path: PATH #, delim: char -> char #)
+extern const path_ustr : (path: PATH #, delim: char -> USTR #)
 extern const destroy_path : (path: PATH # -> void)
 extern const set_path_drive : (path: PATH #, drive: char # -> void)
-extern const get_path_drive : (path: ALLEGRO_PATH # -> char #)
+extern const get_path_drive : (path: PATH # -> char #)
 extern const set_path_filename : (path: PATH #, filename: char # -> void)
-extern const get_path_filename : (path: ALLEGRO_PATH # -> char #)
-extern const get_path_extension : (path: ALLEGRO_PATH # -> char #)
+extern const get_path_filename : (path: PATH # -> char #)
+extern const get_path_extension : (path: PATH # -> char #)
 extern const set_path_extension : (path: PATH #, extension: char # -> int)
-extern const get_path_basename : (path: ALLEGRO_PATH # -> char #)
+extern const get_path_basename : (path: PATH # -> char #)
 extern const make_path_canonical : (path: PATH # -> int)
 type FILE = struct
 
 ;;
 type FILE_INTERFACE = struct
 	fi_fopen: (path: char #, mode: char # -> void #);
-	fi_fclose: (handle: ALLEGRO_FILE # -> bool);
-	fi_fread: (f: ALLEGRO_FILE #, ptr: void #, size: size_t -> size_t);
-	fi_fwrite: (f: ALLEGRO_FILE #, ptr: void #, size: size_t -> size_t);
-	fi_fflush: (f: ALLEGRO_FILE # -> bool);
-	fi_ftell: (f: ALLEGRO_FILE # -> int64_t);
-	fi_fseek: (f: ALLEGRO_FILE #, offset: int64_t, whence: int -> bool);
-	fi_feof: (f: ALLEGRO_FILE # -> bool);
-	fi_ferror: (f: ALLEGRO_FILE # -> int);
-	fi_ferrmsg: (f: ALLEGRO_FILE # -> char #);
-	fi_fclearerr: (f: ALLEGRO_FILE # -> void);
-	fi_fungetc: (f: ALLEGRO_FILE #, c: int -> int);
-	fi_fsize: (f: ALLEGRO_FILE # -> off_t);
+	fi_fclose: (handle: FILE # -> bool);
+	fi_fread: (f: FILE #, ptr: void #, size: size_t -> size_t);
+	fi_fwrite: (f: FILE #, ptr: void #, size: size_t -> size_t);
+	fi_fflush: (f: FILE # -> bool);
+	fi_ftell: (f: FILE # -> int64);
+	fi_fseek: (f: FILE #, offset: int64, whence: int -> bool);
+	fi_feof: (f: FILE # -> bool);
+	fi_ferror: (f: FILE # -> int);
+	fi_ferrmsg: (f: FILE # -> char #);
+	fi_fclearerr: (f: FILE # -> void);
+	fi_fungetc: (f: FILE #, c: int -> int);
+	fi_fsize: (f: FILE # -> off_t);
 ;;
 type SEEK = union
 	`SEEK_SET
@@ -244,30 +247,30 @@ type SEEK = union
 	`SEEK_END
 ;;
 extern const fopen : (path: char #, mode: char # -> FILE #)
-extern const fopen_interface : (vt: ALLEGRO_FILE_INTERFACE #, path: char #, mode: char # -> FILE #)
-extern const create_file_handle : (vt: ALLEGRO_FILE_INTERFACE #, userdata: void # -> FILE #)
+extern const fopen_interface : (vt: FILE_INTERFACE #, path: char #, mode: char # -> FILE #)
+extern const create_file_handle : (vt: FILE_INTERFACE #, userdata: void # -> FILE #)
 extern const fclose : (f: FILE # -> int)
 extern const fread : (f: FILE #, ptr: void #, size: int -> int)
 extern const fwrite : (f: FILE #, ptr: void #, size: int -> int)
 extern const fflush : (f: FILE # -> int)
-extern const ftell : (f: FILE # -> int64_t)
-extern const fseek : (f: FILE #, offset: int64_t, whence: int -> int)
+extern const ftell : (f: FILE # -> int64)
+extern const fseek : (f: FILE #, offset: int64, whence: int -> int)
 extern const feof : (f: FILE # -> int)
 extern const ferror : (f: FILE # -> int)
 extern const ferrmsg : (f: FILE # -> char #)
 extern const fclearerr : (f: FILE # -> void)
 extern const fungetc : (f: FILE #, c: int -> int)
-extern const fsize : (f: FILE # -> int64_t)
+extern const fsize : (f: FILE # -> int64)
 extern const fgetc : (f: FILE # -> int)
 extern const fputc : (f: FILE #, c: int -> int)
-extern const fread16le : (f: FILE # -> int16_t)
-extern const fread16be : (f: FILE # -> int16_t)
-extern const fwrite16le : (f: FILE #, w: int16_t -> int)
-extern const fwrite16be : (f: FILE #, w: int16_t -> int)
-extern const fread32le : (f: FILE # -> int32_t)
-extern const fread32be : (f: FILE # -> int32_t)
-extern const fwrite32le : (f: FILE #, l: int32_t -> int)
-extern const fwrite32be : (f: FILE #, l: int32_t -> int)
+extern const fread16le : (f: FILE # -> int16)
+extern const fread16be : (f: FILE # -> int16)
+extern const fwrite16le : (f: FILE #, w: int16 -> int)
+extern const fwrite16be : (f: FILE #, w: int16 -> int)
+extern const fread32le : (f: FILE # -> int32)
+extern const fread32be : (f: FILE # -> int32)
+extern const fwrite32le : (f: FILE #, l: int32 -> int)
+extern const fwrite32be : (f: FILE #, l: int32 -> int)
 extern const fgets : (f: FILE #, p: char #, max: int -> char #)
 extern const fget_ustr : (f: FILE # -> USTR #)
 extern const fputs : (f: FILE #, p: char # -> int)
@@ -276,8 +279,8 @@ extern const vfprintf : (f: FILE #, format: char #, args: int -> int)
 extern const fopen_fd : (fd: int, mode: char # -> FILE #)
 extern const make_temp_file : (tmpl: char #, ret_path: PATH # # -> FILE #)
 extern const fopen_slice : (fp: FILE #, initial_size: int, mode: char # -> FILE #)
-extern const get_new_file_interface : ( -> ALLEGRO_FILE_INTERFACE #)
-extern const set_new_file_interface : (file_interface: ALLEGRO_FILE_INTERFACE # -> void)
+extern const get_new_file_interface : ( -> FILE_INTERFACE #)
+extern const set_new_file_interface : (file_interface: FILE_INTERFACE # -> void)
 extern const set_standard_file_interface : ( -> void)
 extern const get_file_userdata : (f: FILE # -> void #)
 const KEEP_BITMAP_FORMAT = 2
@@ -286,8 +289,7 @@ const KEEP_INDEX = 2048
 type IIO_LOADER_FUNCTION = (filename: char #, flags: int -> BITMAP #)
 type IIO_FS_LOADER_FUNCTION = (fp: FILE #, flags: int -> BITMAP #)
 type IIO_SAVER_FUNCTION = (filename: char #, bitmap: BITMAP # -> bool);
-type ALLEGRO_IIO_FS_SAVER_FUNCTION = (fp: ALLEGRO_FILE #, bitmap: BITMAP # -> bool);
-type IIO_FS_SAVER_FUNCTION = ( -> int)
+type IIO_FS_SAVER_FUNCTION = (fp: FILE #, bitmap: BITMAP # -> bool);
 type IIO_IDENTIFIER_FUNCTION = ( -> int)
 extern const register_bitmap_loader : (ext: char #, loader: IIO_LOADER_FUNCTION -> int)
 extern const register_bitmap_saver : (ext: char #, saver: int -> int)
@@ -379,13 +381,13 @@ type EVENT_SOURCE = struct
 type ANY_EVENT = struct
 	type_: EVENT_TYPE
 	source: EVENT_SOURCE #
-	timestamp: double
+	timestamp: flt64
 ;;
 type DISPLAY_EVENT = struct
 	type_: EVENT_TYPE
-	DISPLAY: ALLEGRO_DISPLAY
-	source: ALLEGRO_DISPLAY #
-	timestamp: double
+	DISPLAY: DISPLAY
+	source: DISPLAY #
+	timestamp: flt64
 	x: int
 	y: int
 	width: int
@@ -394,21 +396,21 @@ type DISPLAY_EVENT = struct
 ;;
 type JOYSTICK_EVENT = struct
 	type_: EVENT_TYPE
-	JOYSTICK: ALLEGRO_JOYSTICK
-	source: ALLEGRO_JOYSTICK #
-	timestamp: double
-	id: ALLEGRO_JOYSTICK #
+	JOYSTICK: JOYSTICK
+	source: JOYSTICK #
+	timestamp: flt64
+	id: JOYSTICK #
 	stick: int
 	axis: int
-	pos: float
+	pos: flt32
 	button: int
 ;;
 type KEYBOARD_EVENT = struct
 	type_: EVENT_TYPE
-	KEYBOARD: ALLEGRO_KEYBOARD
-	source: ALLEGRO_KEYBOARD #
-	timestamp: double
-	display: ALLEGRO_DISPLAY #
+	KEYBOARD: KEYBOARD
+	source: KEYBOARD #
+	timestamp: flt64
+	display: DISPLAY #
 	keycode: int
 	unichar: int
 	modifiers: uint
@@ -416,10 +418,10 @@ type KEYBOARD_EVENT = struct
 ;;
 type MOUSE_EVENT = struct
 	type_: EVENT_TYPE
-	MOUSE: ALLEGRO_MOUSE
-	source: ALLEGRO_MOUSE #
-	timestamp: double
-	display: ALLEGRO_DISPLAY #
+	MOUSE: MOUSE
+	source: MOUSE #
+	timestamp: flt64
+	display: DISPLAY #
 	x: int
 	y: int
 	z: int
@@ -429,39 +431,38 @@ type MOUSE_EVENT = struct
 	dz: int
 	dw: int
 	button: uint
-	pressure: float
+	pressure: flt32
 ;;
 type TIMER_EVENT = struct
 	type_: EVENT_TYPE
-	TIMER: ALLEGRO_TIMER
-	source: ALLEGRO_TIMER #
-	timestamp: double
-	count: int64_t
-	error: double
+	TIMER: TIMER
+	source: TIMER #
+	timestamp: flt64
+	count: int64
+	error: flt64
 ;;
 type TOUCH_EVENT = struct
 	type_: EVENT_TYPE
-	TOUCH_INPUT: ALLEGRO_TOUCH_INPUT
-	source: ALLEGRO_TOUCH_INPUT #
-	timestamp: double
-	display: ALLEGRO_DISPLAY #
+	TOUCH_INPUT: TOUCH_INPUT
+	source: TOUCH_INPUT #
+	timestamp: flt64
+	display: DISPLAY #
 	id: int
-	x: float
-	y: float
-	dx: float
-	dy: float
+	x: flt32
+	y: flt32
+	dx: flt32
+	dy: flt32
 	primary: bool
 ;;
 type USER_EVENT = struct
 	type_: EVENT_TYPE
-	source: ALLEGRO_EVENT_SOURCE #
-	timestamp: double
-	USER_EVENT_DESCRIPTOR: ALLEGRO_USER_EVENT_DESCRIPTOR
-	__internal__descr: ALLEGRO_USER_EVENT_DESCRIPTOR #
-	data1: intptr_t
-	data2: intptr_t
-	data3: intptr_t
-	data4: intptr_t
+	source: EVENT_SOURCE #
+	timestamp: flt64
+	__internal__descr: void #
+	data1: int #
+	data2: int #
+	data3: int #
+	data4: int #
 ;;
 type EVENT = union
 	`type_ EVENT_TYPE
@@ -478,8 +479,8 @@ extern const init_user_event_source : (arg0: EVENT_SOURCE # -> void)
 extern const destroy_user_event_source : (arg0: EVENT_SOURCE # -> void)
 extern const emit_user_event : (arg0: EVENT_SOURCE #, arg1: EVENT #, dtor: (arg0: USER_EVENT # -> void) -> int)
 extern const unref_user_event : (arg0: USER_EVENT # -> void)
-extern const set_event_source_data : (arg0: EVENT_SOURCE #, data: intptr_t -> void)
-extern const get_event_source_data : (arg0: ALLEGRO_EVENT_SOURCE # -> intptr_t)
+extern const set_event_source_data : (arg0: EVENT_SOURCE #, data: int # -> void)
+extern const get_event_source_data : (arg0: EVENT_SOURCE # -> int #)
 type EVENT_QUEUE = struct
 
 ;;
@@ -489,14 +490,14 @@ extern const is_event_source_registered : (arg0: EVENT_QUEUE #, arg1: EVENT_SOUR
 extern const register_event_source : (arg0: EVENT_QUEUE #, arg1: EVENT_SOURCE # -> void)
 extern const unregister_event_source : (arg0: EVENT_QUEUE #, arg1: EVENT_SOURCE # -> void)
 extern const pause_event_queue : (arg0: EVENT_QUEUE #, arg1: bool -> void)
-extern const is_event_queue_paused : (arg0: ALLEGRO_EVENT_QUEUE # -> int)
+extern const is_event_queue_paused : (arg0: EVENT_QUEUE # -> int)
 extern const is_event_queue_empty : (arg0: EVENT_QUEUE # -> int)
 extern const get_next_event : (arg0: EVENT_QUEUE #, ret_event: EVENT # -> int)
 extern const peek_next_event : (arg0: EVENT_QUEUE #, ret_event: EVENT # -> int)
 extern const drop_next_event : (arg0: EVENT_QUEUE # -> int)
 extern const flush_event_queue : (arg0: EVENT_QUEUE # -> void)
 extern const wait_for_event : (arg0: EVENT_QUEUE #, ret_event: EVENT # -> void)
-extern const wait_for_event_timed : (arg0: EVENT_QUEUE #, ret_event: EVENT #, secs: float -> int)
+extern const wait_for_event_timed : (arg0: EVENT_QUEUE #, ret_event: EVENT #, secs: flt32 -> int)
 extern const wait_for_event_until : (queue: EVENT_QUEUE #, ret_event: EVENT #, timeout: TIMEOUT # -> int)
 const WINDOWED = 1
 const FULLSCREEN = 2
@@ -535,8 +536,8 @@ type DISPLAY_OPTIONS = union
 	`SAMPLE_BUFFERS
 	`SAMPLES
 	`RENDER_METHOD
-	`FLOAT_COLOR
-	`FLOAT_DEPTH
+	`flt32_COLOR
+	`flt32_DEPTH
 	`SINGLE_BUFFER
 	`SWAP_METHOD
 	`COMPATIBLE_DISPLAY
@@ -635,39 +636,39 @@ extern const create_config : ( -> CONFIG #)
 extern const add_config_section : (config: CONFIG #, name: char # -> void)
 extern const set_config_value : (config: CONFIG #, section: char #, key: char #, value: char # -> void)
 extern const add_config_comment : (config: CONFIG #, section: char #, comment: char # -> void)
-extern const get_config_value : (config: ALLEGRO_CONFIG #, section: char #, key: char # -> char #)
+extern const get_config_value : (config: CONFIG #, section: char #, key: char # -> char #)
 extern const load_config_file : (filename: char # -> CONFIG #)
 extern const load_config_file_f : (filename: FILE # -> CONFIG #)
-extern const save_config_file : (filename: char #, config: ALLEGRO_CONFIG # -> int)
-extern const save_config_file_f : (file: FILE #, config: ALLEGRO_CONFIG # -> int)
-extern const merge_config_into : (master: CONFIG #, add: ALLEGRO_CONFIG # -> void)
-extern const merge_config : (cfg1: ALLEGRO_CONFIG #, cfg2: ALLEGRO_CONFIG # -> CONFIG #)
+extern const save_config_file : (filename: char #, config: CONFIG # -> int)
+extern const save_config_file_f : (file: FILE #, config: CONFIG # -> int)
+extern const merge_config_into : (master: CONFIG #, add: CONFIG # -> void)
+extern const merge_config : (cfg1: CONFIG #, cfg2: CONFIG # -> CONFIG #)
 extern const destroy_config : (config: CONFIG # -> void)
 extern const remove_config_section : (config: CONFIG #, section: char # -> int)
 extern const remove_config_key : (config: CONFIG #, section: char #, key: char # -> int)
-extern const get_first_config_section : (config: ALLEGRO_CONFIG #, iterator: CONFIG_SECTION # # -> char #)
+extern const get_first_config_section : (config: CONFIG #, iterator: CONFIG_SECTION # # -> char #)
 extern const get_next_config_section : (iterator: CONFIG_SECTION # # -> char #)
-extern const get_first_config_entry : (config: ALLEGRO_CONFIG #, section: char #, iterator: CONFIG_ENTRY # # -> char #)
+extern const get_first_config_entry : (config: CONFIG #, section: char #, iterator: CONFIG_ENTRY # # -> char #)
 extern const get_next_config_entry : (iterator: CONFIG_ENTRY # # -> char #)
 extern const get_cpu_count : ( -> int)
 extern const get_ram_size : ( -> int)
 extern const register_assert_handler : (handler: (expr: char #, file: char #, line: int, func: char # -> void) -> void)
 extern const register_trace_handler : (handler: (arg0: char # -> void) -> void)
 extern const clear_to_color : (color: COLOR -> void)
-extern const clear_depth_buffer : (x: float -> void)
-extern const draw_pixel : (x: float, y: float, color: COLOR -> void)
+extern const clear_depth_buffer : (x: flt32 -> void)
+extern const draw_pixel : (x: flt32, y: flt32, color: COLOR -> void)
 extern const get_errno : ( -> int)
 extern const set_errno : (errnum: int -> void)
-type fixed = int32_t
-var fixtorad_r : al_fixed
-var radtofix_r : al_fixed
+type fixed = int32
+var fixtorad_r : fixed
+var radtofix_r : fixed
 extern const fixsqrt : (x: fixed -> fixed)
 extern const fixhypot : (x: fixed, y: fixed -> fixed)
 extern const fixatan : (x: fixed -> fixed)
 extern const fixatan2 : (y: fixed, x: fixed -> fixed)
 type FS_ENTRY = struct
-	FS_INTERFACE: ALLEGRO_FS_INTERFACE
-	vtable: ALLEGRO_FS_INTERFACE #
+	FS_INTERFACE: FS_INTERFACE
+	vtable: FS_INTERFACE #
 ;;
 type FILE_MODE = union
 	`FILEMODE_READ
@@ -703,7 +704,7 @@ extern const create_fs_entry : (path: char # -> FS_ENTRY #)
 extern const destroy_fs_entry : (e: FS_ENTRY # -> void)
 extern const get_fs_entry_name : (e: FS_ENTRY # -> char #)
 extern const update_fs_entry : (e: FS_ENTRY # -> int)
-extern const get_fs_entry_mode : (e: FS_ENTRY # -> uint32_t)
+extern const get_fs_entry_mode : (e: FS_ENTRY # -> uint32)
 extern const get_fs_entry_atime : (e: FS_ENTRY # -> time_t)
 extern const get_fs_entry_mtime : (e: FS_ENTRY # -> time_t)
 extern const get_fs_entry_ctime : (e: FS_ENTRY # -> time_t)
@@ -726,8 +727,8 @@ type FOR_EACH_FS_ENTRY_RESULT = union
 	`FOR_EACH_FS_ENTRY_STOP
 ;;
 extern const for_each_fs_entry : (dir: FS_ENTRY #, callback: (entry: FS_ENTRY #, extra: void # -> int), extra: void # -> int)
-extern const get_fs_interface : ( -> ALLEGRO_FS_INTERFACE #)
-extern const set_fs_interface : (vtable: ALLEGRO_FS_INTERFACE # -> void)
+extern const get_fs_interface : ( -> FS_INTERFACE #)
+extern const set_fs_interface : (vtable: FS_INTERFACE # -> void)
 extern const set_standard_fs_interface : ( -> void)
 type DISPLAY_MODE = struct
 	width: int
@@ -742,7 +743,7 @@ type JOYSTICK = struct
 ;;
 type JOYSTICK_STATE = struct
 	stick: struct
-		axis: float[3]
+		axis: flt32[3]
 	;;[16]
 	button: int [32]
 ;;
@@ -930,7 +931,7 @@ type KEYBOARD = struct
 
 ;;
 type KEYBOARD_STATE = struct
-	display: ALLEGRO_DISPLAY #
+	display: DISPLAY #
 	__key_down__internal__: uint[8]
 ;;
 extern const is_keyboard_installed : ( -> int)
@@ -939,7 +940,7 @@ extern const uninstall_keyboard : ( -> void)
 extern const set_keyboard_leds : (leds: int -> int)
 extern const keycode_to_name : (keycode: int -> char #)
 extern const get_keyboard_state : (ret_state: KEYBOARD_STATE # -> void)
-extern const key_down : (arg0: ALLEGRO_KEYBOARD_STATE #, keycode: int -> int)
+extern const key_down : (arg0: KEYBOARD_STATE #, keycode: int -> int)
 extern const get_keyboard_event_source : ( -> EVENT_SOURCE #)
 type MOUSE = struct
 
@@ -951,23 +952,23 @@ type MOUSE_STATE = struct
 	w: int
 	more_axes: int [4]
 	buttons: int
-	pressure: float
-	display: ALLEGRO_DISPLAY #
+	pressure: flt32
+	display: DISPLAY #
 ;;
 extern const is_mouse_installed : ( -> int)
 extern const install_mouse : ( -> int)
 extern const uninstall_mouse : ( -> void)
 extern const get_mouse_num_buttons : ( -> uint)
 extern const get_mouse_num_axes : ( -> uint)
-extern const set_mouse_xy : (display: ALLEGRO_DISPLAY #, x: int, y: int -> int)
+extern const set_mouse_xy : (display: DISPLAY #, x: int, y: int -> int)
 extern const set_mouse_z : (z: int -> int)
 extern const set_mouse_w : (w: int -> int)
 extern const set_mouse_axis : (axis: int, value: int -> int)
 extern const get_mouse_state : (ret_state: MOUSE_STATE # -> void)
-extern const mouse_button_down : (state: ALLEGRO_MOUSE_STATE #, button: int -> int)
-extern const get_mouse_state_axis : (state: ALLEGRO_MOUSE_STATE #, axis: int -> int)
+extern const mouse_button_down : (state: MOUSE_STATE #, button: int -> int)
+extern const get_mouse_state_axis : (state: MOUSE_STATE #, axis: int -> int)
 extern const get_mouse_cursor_position : (ret_x: int #, ret_y: int # -> int)
-extern const grab_mouse : (display: ALLEGRO_DISPLAY # -> int)
+extern const grab_mouse : (display: DISPLAY # -> int)
 extern const ungrab_mouse : ( -> int)
 extern const set_mouse_wheel_precision : (precision: int -> void)
 extern const get_mouse_wheel_precision : ( -> int)
@@ -980,12 +981,12 @@ type TOUCH_INPUT_STATE = struct
 ;;
 type TOUCH_STATE = struct
 	id: int
-	x: float
-	y: float
-	dx: float
-	dy: float
+	x: flt32
+	y: flt32
+	dx: flt32
+	dy: flt32
 	primary: bool
-	display: ALLEGRO_DISPLAY #
+	display: DISPLAY #
 ;;
 extern const is_touch_input_installed : ( -> int)
 extern const install_touch_input : ( -> int)
@@ -1038,12 +1039,12 @@ type SYSTEM_MOUSE_CURSOR = union
 	`SYSTEM_MOUSE_CURSOR_UNAVAILABLE
 	`NUM_SYSTEM_MOUSE_CURSORS
 ;;
-extern const create_mouse_cursor : (sprite: ALLEGRO_BITMAP #, xfocus: int, yfocus: int -> MOUSE_CURSOR #)
+extern const create_mouse_cursor : (sprite: BITMAP #, xfocus: int, yfocus: int -> MOUSE_CURSOR #)
 extern const destroy_mouse_cursor : (arg0: MOUSE_CURSOR # -> void)
-extern const set_mouse_cursor : (display: ALLEGRO_DISPLAY #, cursor: MOUSE_CURSOR # -> int)
-extern const set_system_mouse_cursor : (display: ALLEGRO_DISPLAY #, cursor_id: SYSTEM_MOUSE_CURSOR -> int)
-extern const show_mouse_cursor : (display: ALLEGRO_DISPLAY # -> int)
-extern const hide_mouse_cursor : (display: ALLEGRO_DISPLAY # -> int)
+extern const set_mouse_cursor : (display: DISPLAY #, cursor: MOUSE_CURSOR # -> int)
+extern const set_system_mouse_cursor : (display: DISPLAY #, cursor_id: SYSTEM_MOUSE_CURSOR -> int)
+extern const show_mouse_cursor : (display: DISPLAY # -> int)
+extern const hide_mouse_cursor : (display: DISPLAY # -> int)
 type RENDER_STATE = union
 	`ALPHA_TEST
 	`WRITE_MASK
@@ -1073,34 +1074,34 @@ type WRITE_MASK_FLAGS = union
 ;;
 extern const set_render_state : (state: RENDER_STATE, value: int -> void)
 type TRANSFORM = struct
-	m: float [4][4]
+	m: flt32 [4][4]
 ;;
-extern const use_transform : (trans: ALLEGRO_TRANSFORM # -> void)
-extern const use_projection_transform : (trans: ALLEGRO_TRANSFORM # -> void)
-extern const copy_transform : (dest: TRANSFORM #, src: ALLEGRO_TRANSFORM # -> void)
+extern const use_transform : (trans: TRANSFORM # -> void)
+extern const use_projection_transform : (trans: TRANSFORM # -> void)
+extern const copy_transform : (dest: TRANSFORM #, src: TRANSFORM # -> void)
 extern const identity_transform : (trans: TRANSFORM # -> void)
-extern const build_transform : (trans: TRANSFORM #, x: float, y: float, sx: float, sy: float, theta: float -> void)
-extern const build_camera_transform : (trans: TRANSFORM #, position_x: float, position_y: float, position_z: float, look_x: float, look_y: float, look_z: float, up_x: float, up_y: float, up_z: float -> void)
-extern const translate_transform : (trans: TRANSFORM #, x: float, y: float -> void)
-extern const translate_transform_3d : (trans: TRANSFORM #, x: float, y: float, z: float -> void)
-extern const rotate_transform : (trans: TRANSFORM #, theta: float -> void)
-extern const rotate_transform_3d : (trans: TRANSFORM #, x: float, y: float, z: float, angle: float -> void)
-extern const scale_transform : (trans: TRANSFORM #, sx: float, sy: float -> void)
-extern const scale_transform_3d : (trans: TRANSFORM #, sx: float, sy: float, sz: float -> void)
-extern const transform_coordinates : (trans: ALLEGRO_TRANSFORM #, x: float #, y: float # -> void)
-extern const transform_coordinates_3d : (trans: ALLEGRO_TRANSFORM #, x: float #, y: float #, z: float # -> void)
-extern const transform_coordinates_4d : (trans: ALLEGRO_TRANSFORM #, x: float #, y: float #, z: float #, w: float # -> void)
-extern const transform_coordinates_3d_projective : (trans: ALLEGRO_TRANSFORM #, x: float #, y: float #, z: float # -> void)
-extern const compose_transform : (trans: TRANSFORM #, other: ALLEGRO_TRANSFORM # -> void)
-extern const get_current_transform : ( -> ALLEGRO_TRANSFORM #)
-extern const get_current_inverse_transform : ( -> ALLEGRO_TRANSFORM #)
-extern const get_current_projection_transform : ( -> ALLEGRO_TRANSFORM #)
+extern const build_transform : (trans: TRANSFORM #, x: flt32, y: flt32, sx: flt32, sy: flt32, theta: flt32 -> void)
+extern const build_camera_transform : (trans: TRANSFORM #, position_x: flt32, position_y: flt32, position_z: flt32, look_x: flt32, look_y: flt32, look_z: flt32, up_x: flt32, up_y: flt32, up_z: flt32 -> void)
+extern const translate_transform : (trans: TRANSFORM #, x: flt32, y: flt32 -> void)
+extern const translate_transform_3d : (trans: TRANSFORM #, x: flt32, y: flt32, z: flt32 -> void)
+extern const rotate_transform : (trans: TRANSFORM #, theta: flt32 -> void)
+extern const rotate_transform_3d : (trans: TRANSFORM #, x: flt32, y: flt32, z: flt32, angle: flt32 -> void)
+extern const scale_transform : (trans: TRANSFORM #, sx: flt32, sy: flt32 -> void)
+extern const scale_transform_3d : (trans: TRANSFORM #, sx: flt32, sy: flt32, sz: flt32 -> void)
+extern const transform_coordinates : (trans: TRANSFORM #, x: flt32 #, y: flt32 # -> void)
+extern const transform_coordinates_3d : (trans: TRANSFORM #, x: flt32 #, y: flt32 #, z: flt32 # -> void)
+extern const transform_coordinates_4d : (trans: TRANSFORM #, x: flt32 #, y: flt32 #, z: flt32 #, w: flt32 # -> void)
+extern const transform_coordinates_3d_projective : (trans: TRANSFORM #, x: flt32 #, y: flt32 #, z: flt32 # -> void)
+extern const compose_transform : (trans: TRANSFORM #, other: TRANSFORM # -> void)
+extern const get_current_transform : ( -> TRANSFORM #)
+extern const get_current_inverse_transform : ( -> TRANSFORM #)
+extern const get_current_projection_transform : ( -> TRANSFORM #)
 extern const invert_transform : (trans: TRANSFORM # -> void)
-extern const check_inverse : (trans: ALLEGRO_TRANSFORM #, tol: float -> int)
-extern const orthographic_transform : (trans: TRANSFORM #, left: float, top: float, n: float, right: float, bottom: float, f: float -> void)
-extern const perspective_transform : (trans: TRANSFORM #, left: float, top: float, n: float, right: float, bottom: float, f: float -> void)
-extern const horizontal_shear_transform : (trans: TRANSFORM #, theta: float -> void)
-extern const vertical_shear_transform : (trans: TRANSFORM #, theta: float -> void)
+extern const check_inverse : (trans: TRANSFORM #, tol: flt32 -> int)
+extern const orthographic_transform : (trans: TRANSFORM #, left: flt32, top: flt32, n: flt32, right: flt32, bottom: flt32, f: flt32 -> void)
+extern const perspective_transform : (trans: TRANSFORM #, left: flt32, top: flt32, n: flt32, right: flt32, bottom: flt32, f: flt32 -> void)
+extern const horizontal_shear_transform : (trans: TRANSFORM #, theta: flt32 -> void)
+extern const vertical_shear_transform : (trans: TRANSFORM #, theta: flt32 -> void)
 type SHADER = struct
 
 ;;
@@ -1122,11 +1123,11 @@ extern const get_shader_platform : (shader: SHADER # -> SHADER_PLATFORM)
 extern const use_shader : (shader: SHADER # -> int)
 extern const destroy_shader : (shader: SHADER # -> void)
 extern const set_shader_sampler : (name: char #, bitmap: BITMAP #, unit: int -> int)
-extern const set_shader_matrix : (name: char #, matrix: ALLEGRO_TRANSFORM # -> int)
+extern const set_shader_matrix : (name: char #, matrix: TRANSFORM # -> int)
 extern const set_shader_int : (name: char #, i: int -> int)
-extern const set_shader_float : (name: char #, f: float -> int)
+extern const set_shader_flt32 : (name: char #, f: flt32 -> int)
 extern const set_shader_int_vector : (name: char #, num_components: int, i: int #, num_elems: int -> int)
-extern const set_shader_float_vector : (name: char #, num_components: int, f: float #, num_elems: int -> int)
+extern const set_shader_flt32_vector : (name: char #, num_components: int, f: flt32 #, num_elems: int -> int)
 extern const set_shader_bool : (name: char #, b: bool -> int)
 extern const get_default_shader_source : (platform: SHADER_PLATFORM, type_: SHADER_TYPE -> char #)
 type SYSTEM = struct
@@ -1176,23 +1177,23 @@ extern const destroy_mutex : (mutex: MUTEX # -> void)
 extern const create_cond : ( -> COND #)
 extern const destroy_cond : (cond: COND # -> void)
 extern const wait_cond : (cond: COND #, mutex: MUTEX # -> void)
-extern const wait_cond_until : (cond: COND #, mutex: MUTEX #, timeout: ALLEGRO_TIMEOUT # -> int)
+extern const wait_cond_until : (cond: COND #, mutex: MUTEX #, timeout: TIMEOUT # -> int)
 extern const broadcast_cond : (cond: COND # -> void)
 extern const signal_cond : (cond: COND # -> void)
 type TIMER = struct
 
 ;;
-extern const create_timer : (speed_secs: double -> TIMER #)
+extern const create_timer : (speed_secs: flt64 -> TIMER #)
 extern const destroy_timer : (timer: TIMER # -> void)
 extern const start_timer : (timer: TIMER # -> void)
 extern const stop_timer : (timer: TIMER # -> void)
 extern const resume_timer : (timer: TIMER # -> void)
-extern const get_timer_started : (timer: ALLEGRO_TIMER # -> int)
-extern const get_timer_speed : (timer: ALLEGRO_TIMER # -> double)
-extern const set_timer_speed : (timer: TIMER #, speed_secs: double -> void)
-extern const get_timer_count : (timer: ALLEGRO_TIMER # -> int64_t)
-extern const set_timer_count : (timer: TIMER #, count: int64_t -> void)
-extern const add_timer_count : (timer: TIMER #, diff: int64_t -> void)
+extern const get_timer_started : (timer: TIMER # -> int)
+extern const get_timer_speed : (timer: TIMER # -> flt64)
+extern const set_timer_speed : (timer: TIMER #, speed_secs: flt64 -> void)
+extern const get_timer_count : (timer: TIMER # -> int64)
+extern const set_timer_count : (timer: TIMER #, count: int64 -> void)
+extern const add_timer_count : (timer: TIMER #, diff: int64 -> void)
 extern const get_timer_event_source : (timer: TIMER # -> EVENT_SOURCE #)
 type STATE_FLAGS = union
 	`STATE_NEW_DISPLAY_PARAMETERS
@@ -1210,4 +1211,4 @@ type STATE = struct
 	_tls: char [1024]
 ;;
 extern const store_state : (state: STATE #, flags: int -> void)
-extern const restore_state : (state: ALLEGRO_STATE # -> void)
+extern const restore_state : (state: STATE # -> void)

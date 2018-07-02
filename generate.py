@@ -21,6 +21,10 @@ def myr_type(node):
         return 'byte'
     if node.kind == cindex.TypeKind.UINT:
         return 'uint'
+    if node.kind == cindex.TypeKind.FLOAT:
+        return 'flt32'
+    if node.kind == cindex.TypeKind.DOUBLE:
+        return 'flt64'
     if node.kind == cindex.TypeKind.INCOMPLETEARRAY:
         return myr_type(node.element_type) + '[:]'
 
