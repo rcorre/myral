@@ -68,9 +68,15 @@ def myr_union(node):
                        for c in node.get_children())
     return 'type {} = union\n{}\n;;'.format(nameof(node), fields)
 
+def typeof(node):
+    typ = node.type
+    if typ.get_pointee().get_result().kind != cindex.TypeKind.INVALID:
+        return myr_typedef_func(node)
+    return myr_type(typ)
+
 def myr_struct_fields(node):
     return '\n'.join(
-        '\t{}: {}'.format(nameof(c), myr_type(c.type))
+        '\t{}: {}'.format(nameof(c), typeof(c))
         for c in node.get_children())
 
 def myr_typedef_func(node):
@@ -80,12 +86,12 @@ def myr_typedef_func(node):
     args = ', '.join(myr_arg(a, i)
                      for i, a in enumerate(node.get_children())
                      if a.kind == cindex.CursorKind.PARM_DECL)
-    return 'type {} = ({} -> {})'.format(nameof(node), args, ret)
+    return '({} -> {})'.format(args, ret)
 
 def myr_typedef(node):
     typ = node.underlying_typedef_type
     if typ.get_pointee().get_result().kind != cindex.TypeKind.INVALID:
-        return myr_typedef_func(node)
+        return 'type {} = {}'.format(nameof(node), myr_typedef_func(node))
     return 'type {} = {}'.format(nameof(node), myr_type(typ))
 
 def myr_var(node):

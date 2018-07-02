@@ -224,15 +224,15 @@ type FILE = struct
 
 ;;
 type FILE_INTERFACE = struct
-	fi_fopen: void *(char *, char *) #
+	fi_fopen: (path: char #, mode: char # -> )
 	bool: int ((int *))(ALLEGRO_FILE *)
 	size_t: int ((int *))(ALLEGRO_FILE *, void *, int)
-	fi_ftell: int64_t (ALLEGRO_FILE *) #
-	fi_ferror: int (ALLEGRO_FILE *) #
-	fi_ferrmsg: char *(ALLEGRO_FILE *) #
-	fi_fclearerr: void (ALLEGRO_FILE *) #
-	fi_fungetc: int (ALLEGRO_FILE *, int) #
-	fi_fsize: off_t (ALLEGRO_FILE *) #
+	fi_ftell: (f: FILE # -> )
+	fi_ferror: (f: FILE # -> )
+	fi_ferrmsg: (f: FILE # -> )
+	fi_fclearerr: (f: FILE # -> )
+	fi_fungetc: (f: FILE #, c: int -> )
+	fi_fsize: (f: FILE # -> )
 ;;
 type SEEK = union
 	`SEEK_SET
@@ -673,26 +673,26 @@ type FILE_MODE = union
 	`FILEMODE_ISDIR
 ;;
 type FS_INTERFACE = struct
-	fs_create_entry: FS_ENTRY *(char *) #
-	fs_destroy_entry: void (ALLEGRO_FS_ENTRY *) #
-	fs_entry_name: char *(ALLEGRO_FS_ENTRY *) #
-	fs_update_entry: int (ALLEGRO_FS_ENTRY *) #
-	fs_entry_mode: uint32_t (ALLEGRO_FS_ENTRY *) #
-	fs_entry_atime: time_t (ALLEGRO_FS_ENTRY *) #
-	fs_entry_mtime: time_t (ALLEGRO_FS_ENTRY *) #
-	fs_entry_ctime: time_t (ALLEGRO_FS_ENTRY *) #
-	fs_entry_size: off_t (ALLEGRO_FS_ENTRY *) #
-	fs_entry_exists: int (ALLEGRO_FS_ENTRY *) #
-	fs_remove_entry: int (ALLEGRO_FS_ENTRY *) #
-	fs_open_directory: int (ALLEGRO_FS_ENTRY *) #
-	fs_read_directory: FS_ENTRY *(ALLEGRO_FS_ENTRY *) #
-	fs_close_directory: int (ALLEGRO_FS_ENTRY *) #
-	fs_filename_exists: int (char *) #
-	fs_remove_filename: int (char *) #
-	fs_get_current_directory: char *(void) #
-	fs_change_directory: int (char *) #
-	fs_make_directory: int (char *) #
-	fs_open_file: FILE *(ALLEGRO_FS_ENTRY *, char *) #
+	fs_create_entry: (path: char # -> )
+	fs_destroy_entry: (e: FS_ENTRY # -> )
+	fs_entry_name: (e: FS_ENTRY # -> )
+	fs_update_entry: ( -> )
+	fs_entry_mode: (e: FS_ENTRY # -> )
+	fs_entry_atime: (e: FS_ENTRY # -> )
+	fs_entry_mtime: (e: FS_ENTRY # -> )
+	fs_entry_ctime: (e: FS_ENTRY # -> )
+	fs_entry_size: (e: FS_ENTRY # -> )
+	fs_entry_exists: ( -> )
+	fs_remove_entry: ( -> )
+	fs_open_directory: ( -> )
+	fs_read_directory: (e: FS_ENTRY # -> )
+	fs_close_directory: ( -> )
+	fs_filename_exists: ( -> )
+	fs_remove_filename: ( -> )
+	fs_get_current_directory: ( -> )
+	fs_change_directory: ( -> )
+	fs_make_directory: ( -> )
+	fs_open_file: (e: FS_ENTRY #, mode: char # -> )
 ;;
 extern const create_fs_entry : (path: char # -> FS_ENTRY #)
 extern const destroy_fs_entry : (e: FS_ENTRY # -> void)
@@ -987,10 +987,10 @@ extern const uninstall_touch_input : ( -> void)
 extern const get_touch_input_state : (ret_state: TOUCH_INPUT_STATE # -> void)
 extern const get_touch_input_event_source : ( -> EVENT_SOURCE #)
 type MEMORY_INTERFACE = struct
-	mi_malloc: void *(int, int, char *, char *) #
-	mi_free: void (void *, int, char *, char *) #
-	mi_realloc: void *(void *, int, int, char *, char *) #
-	mi_calloc: void *(int, int, int, char *, char *) #
+	mi_malloc: (n: int, line: int, file: char #, func: char # -> )
+	mi_free: (ptr: void #, line: int, file: char #, func: char # -> )
+	mi_realloc: (ptr: void #, n: int, line: int, file: char #, func: char # -> )
+	mi_calloc: (count: int, n: int, line: int, file: char #, func: char # -> )
 ;;
 extern const set_memory_interface : (iface: MEMORY_INTERFACE # -> void)
 extern const malloc_with_context : (n: int, line: int, file: char #, func: char # -> void #)
