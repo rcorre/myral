@@ -224,15 +224,19 @@ type FILE = struct
 
 ;;
 type FILE_INTERFACE = struct
-	fi_fopen: (path: char #, mode: char # -> )
-	bool: int ((int *))(ALLEGRO_FILE *)
-	size_t: int ((int *))(ALLEGRO_FILE *, void *, int)
-	fi_ftell: (f: FILE # -> )
-	fi_ferror: (f: FILE # -> )
-	fi_ferrmsg: (f: FILE # -> )
-	fi_fclearerr: (f: FILE # -> )
-	fi_fungetc: (f: FILE #, c: int -> )
-	fi_fsize: (f: FILE # -> )
+	fi_fopen: (path: char #, mode: char # -> void #);
+	fi_fclose: (handle: ALLEGRO_FILE # -> bool);
+	fi_fread: (f: ALLEGRO_FILE #, ptr: void #, size: size_t -> size_t);
+	fi_fwrite: (f: ALLEGRO_FILE #, ptr: void #, size: size_t -> size_t);
+	fi_fflush: (f: ALLEGRO_FILE # -> bool);
+	fi_ftell: (f: ALLEGRO_FILE # -> int64_t);
+	fi_fseek: (f: ALLEGRO_FILE #, offset: int64_t, whence: int -> bool);
+	fi_feof: (f: ALLEGRO_FILE # -> bool);
+	fi_ferror: (f: ALLEGRO_FILE # -> int);
+	fi_ferrmsg: (f: ALLEGRO_FILE # -> char #);
+	fi_fclearerr: (f: ALLEGRO_FILE # -> void);
+	fi_fungetc: (f: ALLEGRO_FILE #, c: int -> int);
+	fi_fsize: (f: ALLEGRO_FILE # -> off_t);
 ;;
 type SEEK = union
 	`SEEK_SET
@@ -281,7 +285,8 @@ const NO_PREMULTIPLIED_ALPHA = 512
 const KEEP_INDEX = 2048
 type IIO_LOADER_FUNCTION = (filename: char #, flags: int -> BITMAP #)
 type IIO_FS_LOADER_FUNCTION = (fp: FILE #, flags: int -> BITMAP #)
-type bool = int (int *)
+type IIO_SAVER_FUNCTION = (filename: char #, bitmap: BITMAP # -> bool);
+type ALLEGRO_IIO_FS_SAVER_FUNCTION = (fp: ALLEGRO_FILE #, bitmap: BITMAP # -> bool);
 type IIO_FS_SAVER_FUNCTION = ( -> int)
 type IIO_IDENTIFIER_FUNCTION = ( -> int)
 extern const register_bitmap_loader : (ext: char #, loader: IIO_LOADER_FUNCTION -> int)
@@ -673,26 +678,26 @@ type FILE_MODE = union
 	`FILEMODE_ISDIR
 ;;
 type FS_INTERFACE = struct
-	fs_create_entry: (path: char # -> )
-	fs_destroy_entry: (e: FS_ENTRY # -> )
-	fs_entry_name: (e: FS_ENTRY # -> )
-	fs_update_entry: ( -> )
-	fs_entry_mode: (e: FS_ENTRY # -> )
-	fs_entry_atime: (e: FS_ENTRY # -> )
-	fs_entry_mtime: (e: FS_ENTRY # -> )
-	fs_entry_ctime: (e: FS_ENTRY # -> )
-	fs_entry_size: (e: FS_ENTRY # -> )
-	fs_entry_exists: ( -> )
-	fs_remove_entry: ( -> )
-	fs_open_directory: ( -> )
-	fs_read_directory: (e: FS_ENTRY # -> )
-	fs_close_directory: ( -> )
-	fs_filename_exists: ( -> )
-	fs_remove_filename: ( -> )
-	fs_get_current_directory: ( -> )
-	fs_change_directory: ( -> )
-	fs_make_directory: ( -> )
-	fs_open_file: (e: FS_ENTRY #, mode: char # -> )
+	fs_create_entry: (path: char # -> void)
+	fs_destroy_entry: (e: FS_ENTRY # -> void)
+	fs_entry_name: (e: FS_ENTRY # -> void)
+	fs_update_entry: ( -> void)
+	fs_entry_mode: (e: FS_ENTRY # -> void)
+	fs_entry_atime: (e: FS_ENTRY # -> void)
+	fs_entry_mtime: (e: FS_ENTRY # -> void)
+	fs_entry_ctime: (e: FS_ENTRY # -> void)
+	fs_entry_size: (e: FS_ENTRY # -> void)
+	fs_entry_exists: ( -> void)
+	fs_remove_entry: ( -> void)
+	fs_open_directory: ( -> void)
+	fs_read_directory: (e: FS_ENTRY # -> void)
+	fs_close_directory: ( -> void)
+	fs_filename_exists: ( -> void)
+	fs_remove_filename: ( -> void)
+	fs_get_current_directory: ( -> void)
+	fs_change_directory: ( -> void)
+	fs_make_directory: ( -> void)
+	fs_open_file: (e: FS_ENTRY #, mode: char # -> void)
 ;;
 extern const create_fs_entry : (path: char # -> FS_ENTRY #)
 extern const destroy_fs_entry : (e: FS_ENTRY # -> void)
@@ -736,8 +741,9 @@ type JOYSTICK = struct
 
 ;;
 type JOYSTICK_STATE = struct
-	: ALLEGRO_JOYSTICK_STATE::(anonymous at /usr/include/allegro5/joystick.h:45:4)
-	stick: (anonymous at /usr/include/allegro5/joystick.h:45:4) [16]
+	stick: struct
+		axis: float[3]
+	;;[16]
 	button: int [32]
 ;;
 type JOYFLAGS = union
@@ -925,7 +931,7 @@ type KEYBOARD = struct
 ;;
 type KEYBOARD_STATE = struct
 	display: ALLEGRO_DISPLAY #
-	__key_down__internal__: unsigned int [8]
+	__key_down__internal__: uint[8]
 ;;
 extern const is_keyboard_installed : ( -> int)
 extern const install_keyboard : ( -> int)
@@ -987,10 +993,10 @@ extern const uninstall_touch_input : ( -> void)
 extern const get_touch_input_state : (ret_state: TOUCH_INPUT_STATE # -> void)
 extern const get_touch_input_event_source : ( -> EVENT_SOURCE #)
 type MEMORY_INTERFACE = struct
-	mi_malloc: (n: int, line: int, file: char #, func: char # -> )
-	mi_free: (ptr: void #, line: int, file: char #, func: char # -> )
-	mi_realloc: (ptr: void #, n: int, line: int, file: char #, func: char # -> )
-	mi_calloc: (count: int, n: int, line: int, file: char #, func: char # -> )
+	mi_malloc: (n: int, line: int, file: char #, func: char # -> void)
+	mi_free: (ptr: void #, line: int, file: char #, func: char # -> void)
+	mi_realloc: (ptr: void #, n: int, line: int, file: char #, func: char # -> void)
+	mi_calloc: (count: int, n: int, line: int, file: char #, func: char # -> void)
 ;;
 extern const set_memory_interface : (iface: MEMORY_INTERFACE # -> void)
 extern const malloc_with_context : (n: int, line: int, file: char #, func: char # -> void #)
